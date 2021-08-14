@@ -1,4 +1,4 @@
-//holi miniCoders ALGO
+//holi mini Coders ALGO jelou
 #include <iostream>
 #include <conio.h>
 #include <windows.h>
