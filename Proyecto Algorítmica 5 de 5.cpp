@@ -1,3 +1,4 @@
+//holi
 #include <iostream>
 #include <conio.h>
 #include <windows.h>
@@ -26,8 +27,8 @@ struct cliente{
 }persona[99];
 
 void menu_principal();
-//Como no existe el gotoxy en el Dev, declaramos una función para que haga la misma función
-void gotoxy(int x, int y); //Sirv para manipular la ubicación de los caracteres
+//Como no existe el gotoxy en el Dev, declaramos una funciï¿½n para que haga la misma funciï¿½n
+void gotoxy(int x, int y); //Sirv para manipular la ubicaciï¿½n de los caracteres
 void dibujarCuadrado(int x1,int y1,int x2,int y2);
 void pacientes();
 void servicios();
@@ -67,8 +68,8 @@ int a=0,b=0,cod=0,cod2=0;
 int main(){
 	ofstream esc;
 	char opc;
-	SetConsoleCP(1252); // Cambiar cin -  Para máquinas Windows
-	SetConsoleOutputCP(1252); // Cambiar cout - Para máquinas Windows
+	SetConsoleCP(1252); // Cambiar cin -  Para mï¿½quinas Windows
+	SetConsoleOutputCP(1252); // Cambiar cout - Para mï¿½quinas Windows
     system("Color 30");//Darle color al programa
     dibujarCuadrado(1,1,78,24);//Cuadro del fondo
 	dibujarCuadrado(2,2,77,4);//Cuadro del titulo
@@ -85,13 +86,13 @@ void menu_principal(){
 	dibujarCuadrado(2,2,77,4);//Cuadro del titulo
 	gotoxy(18,3);cout<<"VETERINARIA PARA PERROS - HUELLITAS UNIDAS"<<endl;
 	do{
-	gotoxy(15,5);cout<<"MENÚ"<<endl;
+	gotoxy(15,5);cout<<"MENï¿½"<<endl;
     gotoxy(4,7);cout<<"(1) Pacientes";
     gotoxy(4,9);cout<<"(2) Servicios";
     gotoxy(4,11);cout<<"(3) Adopciones";
-    gotoxy(4,13);cout<<"(4) Venta de artículos";
+    gotoxy(4,13);cout<<"(4) Venta de artï¿½culos";
     gotoxy(4,15);cout<<"(0) Salir";
-    gotoxy(4,17);cout<<"Digite una opción: ";
+    gotoxy(4,17);cout<<"Digite una opciï¿½n: ";
     cin>>opc;
     transicion();
         if(opc!='1' and opc!='2' and opc!='3' and opc!='4' and opc!='0'){
@@ -151,45 +152,45 @@ void pacientes(){
 		gotoxy(4,11);cout<<"(3) Buscar paciente existente.";
 		gotoxy(4,13);cout<<"(4) Modificar paciente.";
 		gotoxy(4,15);cout<<"(5) Eliminar paciente.";
-		gotoxy(4,17);cout<<"(6) Volver al menú principal.";
-		gotoxy(4,19);cout<<"Ingrese opción: ";cin>>opc2;
+		gotoxy(4,17);cout<<"(6) Volver al menï¿½ principal.";
+		gotoxy(4,19);cout<<"Ingrese opciï¿½n: ";cin>>opc2;
 		transicion();
 		if(opc2!='1' and opc2!='2' and opc2!='3' and opc2!='4' and opc2!='5' and opc2!='6'){
-			gotoxy(3,13);cout<<"Opción no válida, presiona una tecla para volver a ingresar un valor...";
+			gotoxy(3,13);cout<<"Opciï¿½n no vï¿½lida, presiona una tecla para volver a ingresar un valor...";
 			getch();
 			transicion();
 		}
 	}while(opc2!='1' and opc2!='2' and opc2!='3' and opc2!='4' and opc2!='5' and opc2!='6');
 	switch(opc2){
-		//Opción Ingresar Paciente
+		//Opciï¿½n Ingresar Paciente
 		case '1':{
 			agregarPaciente(escperro);
 			break;
 		}
-		//Opción Ver Paciente
+		//Opciï¿½n Ver Paciente
 		case '2':{
 			transicion();
 			verPaciente(leerperro);
 			break;
 		}
-		//Opción Busar Paciente
+		//Opciï¿½n Busar Paciente
 		case '3':{
 			buscarPaciente(leerperro);
 			break;
 		}
-		//Opción Modificar Paciente
+		//Opciï¿½n Modificar Paciente
 		case '4':{
 			transicion();
 			modificarPaciente(leerperro);
 			break;
 		}
-		//Opción Eliminar paciente
+		//Opciï¿½n Eliminar paciente
 		case '5':{
 			eliminarPaciente(leerperro);
 			transicion();
 			break;
 		}
-		//Opción Salir al menú
+		//Opciï¿½n Salir al menï¿½
 		case '6':{
 			transicion();
 			menu_principal();
@@ -206,17 +207,17 @@ void agregarPaciente(ofstream &esc){
 	gotoxy(7,5);cout<<"REGISTRE A SU MASCOTA";
 	gotoxy(4,7);cout<<"Nombre del perrito: ";
 	cin>>perrito;
-	gotoxy(4,9);cout<<"Código del perrito: ";
+	gotoxy(4,9);cout<<"Cï¿½digo del perrito: ";
 	cin>>codigo;
-	gotoxy(4,11);cout<<"Nombre del dueño: ";
+	gotoxy(4,11);cout<<"Nombre del dueï¿½o: ";
 	cin>>nombre_dueno;
-	gotoxy(4,13);cout<<"Apellido del dueño: ";
+	gotoxy(4,13);cout<<"Apellido del dueï¿½o: ";
 	cin>>apellido_dueno;
 	gotoxy(4,15);cout<<"Raza del perro: ";
 	cin>>raza;
 	gotoxy(4,17);cout<<"Fecha de hoy: ";
 	cin>>fecha;
-	//Verificar que no se repitan los códigos
+	//Verificar que no se repitan los cï¿½digos
 	if(verificar_cod(codigo)){
 		esc<<perrito<<" "<<codigo<<" "<<nombre_dueno<<" "<<apellido_dueno<<" "<<raza<<" "<<fecha<<"\n";
 	}
@@ -236,7 +237,7 @@ bool verificar_cod(string cod){
 		leer>>raza;
 		leer>>fecha;
 		if(codigo == cod){
-			gotoxy(4,21);cout<<"--------Código ya en uso------"<<endl<<endl;
+			gotoxy(4,21);cout<<"--------Cï¿½digo ya en uso------"<<endl<<endl;
 			getch();
 			leer.close();
 			return false;
@@ -261,11 +262,11 @@ void verPaciente(ifstream &leer){
 		leer>>raza;
 		leer>>fecha;
 		cout<<"Nombre del Perrito: "<<perrito<<endl;
-		cout<<"Código del Perrito: "<<codigo<<endl;
-		cout<<"Nombre del Dueño: "<<nombre_dueno<<endl;
-		cout<<"Apellido del Dueño: "<<apellido_dueno<<endl;
+		cout<<"Cï¿½digo del Perrito: "<<codigo<<endl;
+		cout<<"Nombre del Dueï¿½o: "<<nombre_dueno<<endl;
+		cout<<"Apellido del Dueï¿½o: "<<apellido_dueno<<endl;
 		cout<<"Raza del Perrito: "<<raza<<endl;
-		cout<<"Fecha de inscripción: "<<fecha<<endl;
+		cout<<"Fecha de inscripciï¿½n: "<<fecha<<endl;
 		cout<<"Cita: "<<"No"<<endl;
 		cout<<"----------------------------------"<<endl;
 		leer>>perrito;
@@ -285,7 +286,7 @@ void buscarPaciente(ifstream &lec){
 	string codigo, perrito, nombre_dueno, apellido_dueno, raza, fecha;
 	string codaux;
 	bool encontrado=false;
-	gotoxy(4,7);cout<<"Digite el código de la mascota: ";
+	gotoxy(4,7);cout<<"Digite el cï¿½digo de la mascota: ";
 	cin>>codaux;
 	transicion();
 	lec>>perrito;
@@ -297,11 +298,11 @@ void buscarPaciente(ifstream &lec){
 		lec>>fecha;
 		if(codigo == codaux){
 			gotoxy(4,7);cout<<"Nombre del Perrito: "<<perrito<<endl;
-			gotoxy(4,10);cout<<"Código del Perrito: "<<codigo<<endl;
-			gotoxy(4,13);cout<<"Nombre del Dueño: "<<nombre_dueno<<endl;
-			gotoxy(4,16);cout<<"Apellido del Dueño: "<<apellido_dueno<<endl;
+			gotoxy(4,10);cout<<"Cï¿½digo del Perrito: "<<codigo<<endl;
+			gotoxy(4,13);cout<<"Nombre del Dueï¿½o: "<<nombre_dueno<<endl;
+			gotoxy(4,16);cout<<"Apellido del Dueï¿½o: "<<apellido_dueno<<endl;
 			gotoxy(4,19);cout<<"Raza del Perrito: "<<raza<<endl;
-			gotoxy(4,22);cout<<"Fecha de inscripción: "<<fecha<<endl;
+			gotoxy(4,22);cout<<"Fecha de inscripciï¿½n: "<<fecha<<endl;
 			encontrado=true;
 		}
 		lec>>perrito;
@@ -322,7 +323,7 @@ void modificarPaciente(ifstream &lec){
 	ofstream aux("auxiliar.txt",ios::out);
 	if(lec.is_open()){
 		gotoxy(8,5);cout<<"MODIFIQUE DATO DEL PACIENTE";
-		gotoxy(4,7);cout<<"Digite el código del perrito a modificar: ";
+		gotoxy(4,7);cout<<"Digite el cï¿½digo del perrito a modificar: ";
 		cin>>codaux;
 		lec>>perrito;
 		while(!lec.eof()){
@@ -334,9 +335,9 @@ void modificarPaciente(ifstream &lec){
 			if(codigo==codaux){
 				gotoxy(4,9);cout<<"Nuevo nombre del perrito: ";
 				cin>>perritoaux;
-				gotoxy(4,11);cout<<"Nombre del dueño: ";
+				gotoxy(4,11);cout<<"Nombre del dueï¿½o: ";
 				cin>>nombreaux;
-				gotoxy(4,13);cout<<"Apellido del dueño: ";
+				gotoxy(4,13);cout<<"Apellido del dueï¿½o: ";
 				cin>>apellidoaux;
 				gotoxy(4,15);cout<<"Raza del perrito: ";
 				cin>>razaaux;
@@ -366,7 +367,7 @@ void eliminarPaciente(ifstream &lec){
 	ofstream aux("auxiliar.txt",ios::out);
 	if(lec.is_open()){
 		gotoxy(8,5);cout<<"ELIMINE LOS DATOS DEL PACIENTE";
-		gotoxy(4,7);cout<<"Digite el código del perrito a modificar: ";
+		gotoxy(4,7);cout<<"Digite el cï¿½digo del perrito a modificar: ";
 		cin>>codaux;
 		lec>>perrito;
 		while(!lec.eof()){
@@ -376,7 +377,7 @@ void eliminarPaciente(ifstream &lec){
 			lec>>raza;
 			lec>>fecha;
 			if(codigo==codaux){
-				gotoxy(4,9);cout<<"-------- Registro de Paciente eliminado con éxito --------- ";
+				gotoxy(4,9);cout<<"-------- Registro de Paciente eliminado con ï¿½xito --------- ";
 			}
 			else{
 				aux<<perrito<<" "<<codigo<<" "<<nombre_dueno<<" "<<apellido_dueno<<" "<<raza<<" "<<fecha<<endl;
@@ -560,7 +561,7 @@ void cambio(){
 	
 }
 
-//Hacer cuadrados, son para darle estética y forma a nuestro menú
+//Hacer cuadrados, son para darle estï¿½tica y forma a nuestro menï¿½
 void dibujarCuadrado(int x1,int y1,int x2,int y2){
     int i;
     for (i=x1;i<x2;i++){
@@ -578,7 +579,7 @@ void dibujarCuadrado(int x1,int y1,int x2,int y2){
     gotoxy(x2,y1); cout << "-";
     gotoxy(x2,y2); cout << "-";
 }
-//Función estética para señalar posiciones en eje "x" "y" (rescatado de foros), porque antes existía la función gotoxy dentro de la librería windows.h pero ahora debe ser manual
+//Funciï¿½n estï¿½tica para seï¿½alar posiciones en eje "x" "y" (rescatado de foros), porque antes existï¿½a la funciï¿½n gotoxy dentro de la librerï¿½a windows.h pero ahora debe ser manual
  void gotoxy(int x,int y){  
       HANDLE hcon;  
       hcon = GetStdHandle(STD_OUTPUT_HANDLE);  
@@ -590,16 +591,16 @@ void dibujarCuadrado(int x1,int y1,int x2,int y2){
  void transicion(){
 	int i,j;
 	//hacer un barrido de "limpieza" en toda la pantalla que se muestra
-	for(i=5;i<=23;i++){ //Como el cuadro está hasta 24... y la transición está hecho a base de espacios en blanco, para que no se borre el cuadrado principal, le damos un 23
-		for(j=3;j<=77;j++){ //Como el cuadro está hasta 78... y la transición está hecho a base de espacios en blanco, para que no se borre el cuadrado principal, le damos un 77
+	for(i=5;i<=23;i++){ //Como el cuadro estï¿½ hasta 24... y la transiciï¿½n estï¿½ hecho a base de espacios en blanco, para que no se borre el cuadrado principal, le damos un 23
+		for(j=3;j<=77;j++){ //Como el cuadro estï¿½ hasta 78... y la transiciï¿½n estï¿½ hecho a base de espacios en blanco, para que no se borre el cuadrado principal, le damos un 77
 			gotoxy(j,i); printf(" ");}}
 }
 
 void transicion2(){
 	int i,j;
 	//hacer un barrido de "limpieza" en toda la pantalla que se muestra
-	for(i=0;i<=80;i++){ //Como el cuadro está hasta 80... y la transición está hecho a base de espacios en blanco, para borrar todo lo que aparezca en la pantalla
-		for(j=0;j<=300;j++){ //Como el cuadro está hasta 78... y la transición está hecho a base de espacios en blanco, para borrar todo lo que aparezca en la pantalla
+	for(i=0;i<=80;i++){ //Como el cuadro estï¿½ hasta 80... y la transiciï¿½n estï¿½ hecho a base de espacios en blanco, para borrar todo lo que aparezca en la pantalla
+		for(j=0;j<=300;j++){ //Como el cuadro estï¿½ hasta 78... y la transiciï¿½n estï¿½ hecho a base de espacios en blanco, para borrar todo lo que aparezca en la pantalla
 			gotoxy(j,i); printf(" ");}}
 }
 
@@ -609,17 +610,17 @@ void menu_servicios(){
 
 	system("cls");
     cout<<"\t\tSERVICIOS"<<endl;
-    cout<<"[1]:Baños"<<endl;
+    cout<<"[1]:Baï¿½os"<<endl;
     cout<<"[2]:Vacunas"<<endl;
     cout<<"[3]:Tratamientos"<<endl;
     cout<<"[4]:Corte de pelo"<<endl;
     cout<<"[5]:Operaciones"<<endl;
-    cout<<"[6]:Análisis"<<endl;
+    cout<<"[6]:Anï¿½lisis"<<endl;
    // cout<<"[7]:Boleta"<<endl;
     cout<<"[0]:Salir"<<endl;
     
     do{
-        cout<<"\nDigite una opción: ";cin>>opc;
+        cout<<"\nDigite una opciï¿½n: ";cin>>opc;
         if(opc!='1' and opc!='2' and opc!='3' and opc!='4' and opc!='5' and opc!='6' and opc!='7' and opc!='0'){
         	cout<<"Error, presione una tecla para volver a intentarlo"<<endl;
         }
@@ -672,30 +673,30 @@ int bano(){
 	int preciobano=0;
 		system("cls");
 	cout<<"BANO"<<endl;
-	cout<<"1. Pequeño					s/20 "<<endl;
+	cout<<"1. Pequeï¿½o					s/20 "<<endl;
 	cout<<"2. Mediano					s/30 "<<endl;
 	cout<<"3. Grande					s/40 "<<endl;
     cout<<"0. Salir "<<endl;	
 
     do{
-	   	cout<<"Ingrese una opción: ";
+	   	cout<<"Ingrese una opciï¿½n: ";
 		cin>>tamano; 
 	if(tamano!='0'&&tamano!='1'&&tamano!='2'&&tamano!='3'){
-		cout<<"Opción fuera del rango"<<endl;	
+		cout<<"Opciï¿½n fuera del rango"<<endl;	
 	}
 	}while(tamano!='0'&&tamano!='1'&&tamano!='2'&&tamano!='3');		
 	
 	if(tamano=='1'){
 	    preciobano=20;
-        cout<<"\nRegistrado con éxito"<<endl;
+        cout<<"\nRegistrado con ï¿½xito"<<endl;
 	}
 	if(tamano=='2'){
 	    preciobano=30;
-        cout<<"\nRegistrado con éxito"<<endl;        
+        cout<<"\nRegistrado con ï¿½xito"<<endl;        
 	}
 	if(tamano=='3'){
 	    preciobano=40;
-        cout<<"\nRegistrado con éxito"<<endl; 
+        cout<<"\nRegistrado con ï¿½xito"<<endl; 
 	}    
     	system("pause");
 	return preciobano;
@@ -718,7 +719,7 @@ int vacunas(){
     cout<<"0.Salir"<<endl;
 
 	do{
-	cout << "\nIngrese una opción: ";
+	cout << "\nIngrese una opciï¿½n: ";
 	cin>>op;
     }while(op!='0' && op!='1'&& op!='2'&& op!='3'&&op!='4' &&op!='5'&&op!='6'&&op!='7');
     
@@ -866,27 +867,27 @@ int corte(){
     switch(op){
 		case '1':{
 			preciocorte=40;
-			cout<<"Opción registrada"<<endl;
+			cout<<"Opciï¿½n registrada"<<endl;
 			break;
 		}
 		case '2':{
 			preciocorte=45;
-			cout<<"Opción registrada"<<endl;			
+			cout<<"Opciï¿½n registrada"<<endl;			
 			break;
 		}
 		case '3':{
 			preciocorte=40;
-			cout<<"Opción registrada"<<endl;			
+			cout<<"Opciï¿½n registrada"<<endl;			
 			break;
 		}
 		case '4':{
 			preciocorte=45;
-			cout<<"Opción registrada"<<endl;			
+			cout<<"Opciï¿½n registrada"<<endl;			
 			break;
 		}
 		case '5':{
 			preciocorte=25;
-			cout<<"Opción registrada"<<endl;			
+			cout<<"Opciï¿½n registrada"<<endl;			
 			break;
 		}
 		case '6':{
@@ -1088,12 +1089,12 @@ void ventaDeArticulos(){
 	ifstream leerBaseProductos;
 	char opc;
 	system("CLS");
-	cout<<"\tVENTA DE ARTÍCULOS"<<endl;
+	cout<<"\tVENTA DE ARTï¿½CULOS"<<endl;
 	cout<<"(1) Productos en sistema."<<endl;
 	cout<<"(2) Generar compra."<<endl;
 	cout<<"(3) Ingrese un nuevo producto al sistema."<<endl;
 	cout<<"(4) Salir"<<endl;
-	cout<<"Ingrese una opción: ";cin>>opc;
+	cout<<"Ingrese una opciï¿½n: ";cin>>opc;
 	switch(opc){
 		case '1':buscarProductosEnSistema(leerBaseProductos);break;
 		case '2':generarCompra(leerBaseProductos);;break;
@@ -1125,7 +1126,7 @@ void buscarProductosEnSistema(ifstream &leerBaseProductos){
 		leerBaseProductos.close();
 	}
 	else{
-		cout<<"No se ha añadido ningún producto al sistema."<<endl;
+		cout<<"No se ha aï¿½adido ningï¿½n producto al sistema."<<endl;
 	}
 	system("pause");
 	system("CLS");
@@ -1243,7 +1244,7 @@ void generarCompra(ifstream &leerBaseProductos){
 			cout<<"Precio por por unidad: S/."<<precioProductoComprar<<endl;
 			cout<<"Cantidad a comprar: "<<cantidadProductoComprar<<endl;
 			cout<<"Gasto total por producto: S/."<<gastoPorProducto<<endl;
-			cout<<"Ingresar otro producto (Sí:1 || No:0): ";cin>>ingresarOtro;
+			cout<<"Ingresar otro producto (Sï¿½:1 || No:0): ";cin>>ingresarOtro;
 			i++;
 		}
 		while(ingresarOtro);
@@ -1251,7 +1252,7 @@ void generarCompra(ifstream &leerBaseProductos){
 		leerBaseProductos.close();
 	}
 	else{
-		cout<<"No se ha añadido ningún producto al sistema."<<endl;
+		cout<<"No se ha aï¿½adido ningï¿½n producto al sistema."<<endl;
 	}
 	system("pause");
 	system("CLS");
