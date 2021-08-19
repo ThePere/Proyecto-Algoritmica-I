@@ -1,11 +1,12 @@
 //holi mini Coders ALGO 
+//jelouu soy cris gg
 #include <iostream>
 #include <conio.h>
 #include <windows.h>
 #include <string.h>
 #include <stdlib.h>
 #include <fstream>
-//asdasd
+
 using namespace std;
 
 struct perro{
