@@ -9,17 +9,6 @@
 
 using namespace std;
 
-struct perro{
-	int codigo;
-	char nombre[30];
-	int edad;
-	string enfermedad;
-	char tamano[8];
-	string raza;
-	char fecha[9];
-	string estado;
-}dog[99];
-
 struct cliente{
 	char nombre[50];
 	char dni[8];
@@ -44,9 +33,10 @@ void buscarPaciente(ifstream &lec);
 void modificarPaciente(ifstream &lec);
 void eliminarPaciente(ifstream &lec);
 void menu_adopcion();
-void nuevoingreso(int&,int&);
-void lista(int&);
-void adoptar(int&,int&,int&);
+bool verifica(int);
+void nuevoingreso();
+void lista();
+void adoptar();
 void registro(int&);
 void cambio();
 void menu_servicios();
@@ -64,7 +54,7 @@ void buscarProductosEnSistema(ifstream &);
 void agregarProducto(ofstream &,ifstream &);
 void modificarCantidadProducto(ifstream &,string,int);
 void generarCompra(ifstream &);
-int a=0,b=0,cod=0,cod2=0;
+int cod2=0;
 
 int main(){
 	ofstream esc;
@@ -415,20 +405,20 @@ void menu_adopcion(){
 	
 	switch(opcion){
 		case '1':{
-			nuevoingreso(cod,a);
+			nuevoingreso();
 			menu_adopcion();
 			break;
 		}
 		
 		case '2':{
-			lista(cod);
+			lista();
 			menu_adopcion();
 			break;
 		}
 			
 		case '3':{
 			transicion();
-			adoptar(cod,cod2,b);
+			adoptar();
 			menu_adopcion();
 			break;
 		}
@@ -453,53 +443,111 @@ void menu_adopcion(){
 	
 }
 
+bool verifica(int x){
+	ifstream leer;
+	leer.open("guarderia.txt",ios::in);
+	int cod;
+	string nom;
+	string edad;
+	string tam;
+	string raza;
+	string ingreso;
+	string estado;
 
-void nuevoingreso(int& cod,int& a){
-	char opc;
-	transicion();
-	gotoxy(15,5);cout<<"NUEVO PERRO";
-	dog[a].codigo=cod+1;
-	cin.ignore();
-	gotoxy(4,7);cout<<"Nombre: ";cin.getline(dog[a].nombre,30,'\n');
-	gotoxy(4,9);cout<<"Edad: ";cin>>dog[a].edad;
-	cin.ignore();
-	gotoxy(4,11);cout<<"Enfermedad: ";getline(cin,dog[a].enfermedad);				
-	gotoxy(4,13);cout<<"Tamano: ";cin.getline(dog[a].tamano,8,'\n');
-	fflush(stdin);
-	gotoxy(4,15);cout<<"Raza: ";getline(cin,dog[a].raza);
-	gotoxy(4,17);cout<<"Fecha de ingreso: ";gets(dog[a].fecha);
-	gotoxy(4,19);cout<<"Estado: ";cin>>dog[a].estado;
-	cod++;a++;
-	
-	gotoxy(5,22);cout<<"Quiere ingresar otro perro? (S/N): ";cin>>opc;
-	if(opc=='s' or opc=='S'){
-		nuevoingreso(cod,a);
+	leer>>cod;
+	while(!leer.eof()){
+		if(cod==x){
+			leer.close();
+			return true;
+		}
+		leer>>nom;
+		leer>>edad;
+		leer>>tam;
+		leer>>raza;
+		leer>>ingreso;
+		leer>>estado;
+		leer>>cod;
 	}
+	leer.close();
+	return false;
+}
+
+void nuevoingreso(){
+	int cod=1;
+	char opc;
+	string nom, edad, tam, raza, ingreso, estado;
+	
+	do{
+		system("CLS");
+		cout<<"\t\tNUEVO PERRO"<<endl<<endl;
+		ofstream escribir;
+		escribir.open("guarderia.txt",ios::app);
+		
+		if(escribir.fail()){
+			cout<<"No se pudo abrir el archivo, intentelo de nuevo";
+			menu_adopcion();
+		}
+		
+		while(verifica(cod)){
+			cod++;
+		}
+		
+		fflush(stdin);
+		cout<<"Nombre: ";getline(cin,nom);
+		cout<<"Edad: ";getline(cin,edad);			
+		cout<<"Tamano: ";getline(cin,tam);
+		cout<<"Raza: ";getline(cin,raza);
+		cout<<"Fecha de ingreso: ";getline(cin,ingreso);
+		cout<<"Estado: ";getline(cin,estado);
+		
+		escribir<<cod<<endl;
+		escribir<<nom<<endl;
+		escribir<<edad<<endl;
+		escribir<<tam<<endl;
+		escribir<<raza<<endl;
+		escribir<<ingreso<<endl;
+		escribir<<estado<<endl;
+		
+		escribir.close();
+		
+		cout<<"Quiere ingresar otro perro? (S/N): ";cin>>opc;		
+	}while (opc=='s' or opc=='S');
+
 	getche();
 }
 
-void lista(int& cod){
-	int cod1;
-	system("cls");
-	if(cod>=1){
-		cod1=cod;
-		transicion();
-		cout<<"\tLISTA DE PERROS";
-		for(int i=0;i<cod1;i++){
-			cout<<"\n["<<dog[i].codigo<<"]";
-			cout<<" Nombre: "<<dog[i].nombre;
-			cout<<"\tEdad: "<<dog[i].edad;
-			cout<<"\t\tEnfermedad: "<<dog[i].enfermedad;
-			cout<<"\t\tTamano: "<<dog[i].tamano;
-			cout<<"\t\tRaza: "<<dog[i].raza;
-			cout<<"\n  Fecha de ingreso: "<<dog[i].fecha;
-			cout<<"\tEstado: "<<dog[i].estado;
-		}				
+void lista(){
+	system("CLS");
+	ifstream leer;
+	leer.open("guarderia.txt",ios::in);
+	if(leer.is_open()){
+		cout<<"\t\tLISTA DE PERROS"<<endl<<endl;
+		cout<<"Codigo\tNombre\tEdad\tTamaño\tRaza\t Fecha     Estado"<<endl;	
+		int cod;
+		string nom;
+		string edad;
+		string tam;
+		string raza;
+		string ingreso;
+		string estado;
+	
+		leer>>cod;
+		while(!leer.eof()){
+			leer>>nom;
+			leer>>edad;
+			leer>>tam;
+			leer>>raza;
+			leer>>ingreso;
+			leer>>estado;
+			cout<<"["<<cod<<"]"<<"\t"<<nom<<"\t"<<edad<<"\t"<<tam<<"\t"<<raza<<"\t "<<ingreso<<"  "<<estado<<endl;
+			leer>>cod;
+		}
+		getche();	
 	}
 	else{
-		gotoxy(5,15);cout<<"\nNo hay perros registrados";
+		cout<<"Error, No hay perros registrados o el archivo no existe"<<endl;
+		getche();
 	}
-	getche();
 }
 
 void adoptar(int& cod,int& cod2,int& b){
@@ -515,7 +563,7 @@ void adoptar(int& cod,int& cod2,int& b){
 		gotoxy(4,11);cout<<"Edad: ";cin>>persona[b].edad;
 		gotoxy(4,13);cout<<"Codigo del perro: ";cin>>persona[b].codigo;
 		aux=persona[b].codigo;
-		dog[aux-1].estado=adop;				
+		//dog[aux-1].estado=adop;				
 		cod2++;b++;					
 	}
 	else{
@@ -555,13 +603,13 @@ void cambio(){
     if(opc1==1){
     	gotoxy(5,13);cout<<"Ingrese el codigo del perro";cin>>cod3;
        	gotoxy(5,15);cout<<"Ingrese el cambio de -> Enfermedad: ";cin>>cambio;
-       	dog[cod3-1].enfermedad=cambio;
+       	//dog[cod3-1].enfermedad=cambio;
        	cambio=vacio;
 	}
 	else {
       	gotoxy(5,17);cout<<"Ingrese el codigo del perro: ";cin>>cod3;
        	gotoxy(5,19);cout<<"Ingrese el cambio de -> Estado: ";cin>>cambio;
-       	dog[cod3-1].estado=cambio;
+       //	dog[cod3-1].estado=cambio;
        	cambio=vacio;					
 		}
 	
