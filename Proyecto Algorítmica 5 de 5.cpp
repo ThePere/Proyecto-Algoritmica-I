@@ -34,6 +34,7 @@ void modificarPaciente(ifstream &lec);
 void eliminarPaciente(ifstream &lec);
 void menu_adopcion();
 bool verifica(int);
+bool cantidad();
 void nuevoingreso();
 void lista();
 void adoptar();
@@ -472,26 +473,65 @@ bool verifica(int x){
 	return false;
 }
 
+bool cantidad(){
+	int n=0;
+	ifstream leer;
+	leer.open("guarderia.txt",ios::in);
+	if(leer.is_open()){	
+		int cod;
+		string nom;
+		string edad;
+		string tam;
+		string raza;
+		string ingreso;
+		string estado;
+	
+		leer>>cod;
+		while(!leer.eof()){
+			leer>>nom;
+			n++;
+			leer>>edad;
+			leer>>tam;
+			leer>>raza;
+			leer>>ingreso;
+			leer>>estado;
+			leer>>cod;
+		}
+		
+		if(n<6){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+	else{
+		return true;
+	}
+	
+}
+
 void nuevoingreso(){
 	int cod=1;
 	char opc;
 	string nom, edad, tam, raza, ingreso, estado;
-	
+
 	do{
+		if(cantidad()){
 		system("CLS");
 		cout<<"\t\tNUEVO PERRO"<<endl<<endl;
 		ofstream escribir;
 		escribir.open("guarderia.txt",ios::app);
-		
+			
 		if(escribir.fail()){
 			cout<<"No se pudo abrir el archivo, intentelo de nuevo";
 			menu_adopcion();
 		}
-		
+			
 		while(verifica(cod)){
 			cod++;
 		}
-		
+			
 		fflush(stdin);
 		cout<<"Nombre: ";getline(cin,nom);
 		cout<<"Edad: ";getline(cin,edad);			
@@ -499,7 +539,7 @@ void nuevoingreso(){
 		cout<<"Raza: ";getline(cin,raza);
 		cout<<"Fecha de ingreso: ";getline(cin,ingreso);
 		cout<<"Estado: ";getline(cin,estado);
-		
+			
 		escribir<<cod<<endl;
 		escribir<<nom<<endl;
 		escribir<<edad<<endl;
@@ -507,12 +547,15 @@ void nuevoingreso(){
 		escribir<<raza<<endl;
 		escribir<<ingreso<<endl;
 		escribir<<estado<<endl;
-		
+			
 		escribir.close();
-		
-		cout<<"Quiere ingresar otro perro? (S/N): ";cin>>opc;		
+			
+		cout<<"Quiere ingresar otro perro? (S/N): ";cin>>opc;	
+		}
+		else{
+		cout<<"\nLa guarderia ya no cuenta con mas espacio :( ";
+		}	
 	}while (opc=='s' or opc=='S');
-
 	getche();
 }
 
