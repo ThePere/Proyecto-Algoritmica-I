@@ -48,6 +48,8 @@ void agregarProducto(ofstream &,ifstream &);
 void modificarCantidadProducto(ifstream &,string,int);
 void generarCompra(ifstream &);
 
+int datos[6]={0,0,0,0,0,0};
+
 int main(){
 	ofstream esc;
 	char opc;
@@ -794,7 +796,6 @@ void transicion2(){
 
 void menu_servicios(){
     char opc;
-    int datos[6]={0,0,0,0,0,0};
 	transicion();
     gotoxy(15,5);cout<<"SERVICIOS";
     gotoxy(4,7);cout<<"[1]:Baños";
@@ -803,11 +804,11 @@ void menu_servicios(){
     gotoxy(4,13);cout<<"[4]:Corte de pelo";
     gotoxy(4,15);cout<<"[5]:Operaciones";
     gotoxy(4,17);cout<<"[6]:Análisis";
-   // cout<<"[7]:Boleta"<<endl;
-    gotoxy(4,19);cout<<"[0]:Salir";
+    gotoxy(4,19);cout<<"[7]:Boleta";
+    gotoxy(4,21);cout<<"[0]:Salir";
     
     do{
-        gotoxy(5,21);cout<<"Digite una opci?n: ";cin>>opc;
+        gotoxy(5,21);cout<<"Digite una opcion: ";cin>>opc;
         if(opc!='1' and opc!='2' and opc!='3' and opc!='4' and opc!='5' and opc!='6' and opc!='7' and opc!='0'){
         	transicion();
         	gotoxy(5,15);cout<<"Error, presione una tecla para volver a intentarlo";
@@ -847,9 +848,9 @@ void menu_servicios(){
             menu_servicios();
             break;
 		
-	/*	case '7':
+		case '7':
 			boleta(datos);
-	*/	
+			menu_servicios();
         case '0':
             getch();
             break;
@@ -885,7 +886,7 @@ int bano(){
 	    preciobano=40;
 	}   
 	gotoxy(4,19);cout<<"Registrado con éxito"<<endl; 
-    	system("pause");
+    	getch();
 	return preciobano;
 }
 
@@ -954,13 +955,14 @@ int tratamientos(){
     gotoxy(4,13);cout<<"Ingrese opcion: ";
     cin>>opc;
         if(opc!='0' && opc!='1' && opc!='2'){
-            gotoxy(4,15);cout<<" Ingreso mal el valor. Presione una tecla para volver a ingresar.."<<endl;
+            gotoxy(4,15);cout<<" Ingreso mal de valor. Presione una tecla para volver a ingresar.."<<endl;
             getch();
         }
 	}while(opc!='0' && opc!='1' && opc!='2'&& opc!='0');
-	system("cls");
+	
 	switch(opc){
-		case '1': transicion();
+		case '1': 
+			transicion();
 			gotoxy(15,5);cout<<"DESPARACITACION";
 			gotoxy(4,7);cout<<"[1] Inyeccion          s/20";
 			gotoxy(4,9);cout<<"[2] Pastilla           s/15";	
@@ -969,23 +971,23 @@ int tratamientos(){
 			do{
 				gotoxy(4,13);cout<<"Ingrese opcion: ";
 				cin>>desparacitacion;
-					if(desparacitacion!='0' && desparacitacion!='1' && desparacitacion!='2')
-						gotoxy(4,15);cout<<"Opcion fuera del rango "<<endl;
-					switch(desparacitacion){
-						case '1': 
-							preciodesparacitacion=20;
-							gotoxy(4,15);cout<<"Opción registrada"<<endl;
-							break;
+				if(desparacitacion!='0' && desparacitacion!='1' && desparacitacion!='2')
+					gotoxy(4,15);cout<<"Opcion fuera del rango "<<endl;
+				switch(desparacitacion){
+					case '1': 
+						preciodesparacitacion=20;
+						gotoxy(4,15);cout<<"Opción registrada"<<endl;
+						break;
 						
-						case '2':
-							preciodesparacitacion=15;
-							gotoxy(4,15);cout<<"Opción registrada"<<endl;
-							break;
+					case '2':
+						preciodesparacitacion=15;
+						gotoxy(4,15);cout<<"Opción registrada"<<endl;
+						break;
 						
-						case '0':
-							tratamientos();
+					case '0':
+						tratamientos();
 					}
-				}while(desparacitacion!='0' && desparacitacion!='1' && desparacitacion!='2');
+			}while(desparacitacion!='0' && desparacitacion!='1' && desparacitacion!='2');
 		break;
 		
 		case '2':
@@ -1030,10 +1032,10 @@ int corte(){
 	gotoxy(15,5);cout<<"CORTE DE PELO";
 	gotoxy(4,7);cout<<"[1] Corte leon				s/40 ";
 	gotoxy(4,9);cout<<"[2] Corte Ingles				s/45 ";
-	gotoxy(4,11);cout<<"[3] Corte Holandes			s/40 ";
+	gotoxy(4,11);cout<<"[3] Corte Holandes		        	s/40 ";
 	gotoxy(4,13);cout<<"[4] Corte Moderno				s/45 ";
 	gotoxy(4,15);cout<<"[5] Corte de cachorro			s/25 ";
-	gotoxy(4,17);cout<<"[6] Corte de verano			s/35 ";
+	gotoxy(4,17);cout<<"[6] Corte de verano		    	        s/35 ";
 	gotoxy(4,19);cout <<"[0] Salir"; 
 
     do{
@@ -1070,7 +1072,7 @@ int corte(){
 		case '0':
 			break;
 	} gotoxy(4,23);cout<<"Opción registrada";
-	system("pause");
+	getch();
 	return preciocorte;
 }
 
@@ -1171,7 +1173,7 @@ int analisis(){
 			
 			switch(p){
 				case '1': {
-					gotoxy(4,17);cout<<"\nDistemper y Parvovirus";
+					gotoxy(4,17);cout<<"Distemper y Parvovirus";
 					descarte[0]=100;
 					//	cita();
 					break;
@@ -1230,19 +1232,19 @@ int analisis(){
 
                 switch(p){
                     case '1': {
-                    	gotoxy(4,15);cout<<"\nAnalisis de sangre"<<endl;
+                    	gotoxy(4,15);cout<<"Analisis de sangre"<<endl;
                     	analisis[4]=100;
                 		//	cita();
 						break;
 					}
                     case '2': {
-                    	gotoxy(4,15);cout<<"\nAnalisis fisico"<<endl;
+                    	gotoxy(4,15);cout<<"Analisis fisico"<<endl;
                     	analisis[4]=120;
                 		//	cita();
 						break;
 					}
                     case '3': {
-                    	gotoxy(4,15);cout<<"\nAnalisis de sangre y fisico"<<endl;
+                    	gotoxy(4,15);cout<<"Analisis de sangre y fisico"<<endl;
                     	analisis[4]=210;
                 		//   cita();
 						break;
@@ -1457,37 +1459,35 @@ void generarCompra(ifstream &leerBaseProductos){
 	cin.getline(hora,6,'\n');
 	cin.ignore();
 }
-
+*/
 void boleta(int vec[]){
 	int total;
-	
-	system("cls");
-	cout<<"\t\tBOLETA DE PAGO"<<endl;
+	transicion();
+	gotoxy(4,5);cout<<"\t\tBOLETA DE PAGO"<<endl;
 	if(vec[0]>0){
-		cout<<"\n\nBanos -----------------"<<vec[0]<<endl;
+		cout<<"\n\n\tBanos -----------------"<<vec[0]<<endl;
 	}
 	if(vec[1]>0){
-		cout<<"\nVacunas ----------------"<<vec[1]<<endl;
+		cout<<"\n\tVacunas ----------------"<<vec[1]<<endl;
 	}
 	if(vec[2]>0){
-		cout<<"\nTratamientos -----------"<<vec[2]<<endl;
+		cout<<"\n\tTratamientos -----------"<<vec[2]<<endl;
 	}
 	if(vec[3]>0){
-		cout<<"\nCOrte de Pelo ----------"<<vec[3]<<endl;
+		cout<<"\n\tCorte de Pelo ----------"<<vec[3]<<endl;
 	}
 	if(vec[4]>0){
-		cout<<"\nOperaciones ------------"<<vec[4]<<endl;
+		cout<<"\n\tOperaciones ------------"<<vec[4]<<endl;
 	}
 	if(vec[5]>0){
-		cout<<"\nAnalisis ---------------"<<vec[5]<<endl;
+		cout<<"\n\tAnalisis ---------------"<<vec[5]<<endl;
 	}	
 	
-	for(int i=0;i<6;i++){
-		total+=vec[i];
-	}
 	
-	cout<<"\n\nTotal a pagar: "<<total;
+	total=vec[0]+vec[1]+vec[2]+vec[3]+vec[4]+vec[5];
+	
+	
+	cout<<"\n\n\tTotal a pagar: "<<total;
+	getch();
 }
-FIN PARTE POR ARREGLAR*/
-
 
