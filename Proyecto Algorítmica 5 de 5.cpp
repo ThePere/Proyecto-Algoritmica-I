@@ -1,5 +1,3 @@
-//holi mini Coders ALGO 
-//jelouu soy cris gg
 #include <iostream>
 #include <conio.h>
 #include <windows.h>
@@ -65,23 +63,19 @@ int main(){
 }
 
 void menu_principal(){
-	system("cls");
 	char opc;
-	dibujarCuadrado(1,1,78,24);//Cuadro del fondo
-	dibujarCuadrado(2,2,77,4);//Cuadro del titulo
-	gotoxy(18,3);cout<<"VETERINARIA PARA PERROS - HUELLITAS UNIDAS"<<endl;
 	do{
-	gotoxy(15,5);cout<<"MENÚ"<<endl;
+	gotoxy(4,5);cout<<"MENÚ PRINCIPAL"<<endl;
     gotoxy(4,7);cout<<"[1] Pacientes";
     gotoxy(4,9);cout<<"[2] Servicios";
     gotoxy(4,11);cout<<"[3] Adopciones";
     gotoxy(4,13);cout<<"[4] Venta de artículos";
     gotoxy(4,15);cout<<"[0] Salir";
-    gotoxy(4,17);cout<<"Digite una opción: ";
+    gotoxy(4,19);cout<<"Digite una opción: ";
     cin>>opc;
     transicion();
         if(opc!='1' and opc!='2' and opc!='3' and opc!='4' and opc!='0'){
-        	gotoxy(3,13);cout<<"Error, presione una tecla para volver a intentarlo."<<endl;
+        	gotoxy(3,13);cout<<"Opcion invalida, presione una tecla para volver a intentarlo."<<endl;
         	getch();
         	transicion();
 		}
@@ -126,19 +120,23 @@ void menu_principal(){
 }
 
 void pacientes(){
+	system("CLS");
+	dibujarCuadrado(1,1,78,24);
+	dibujarCuadrado(2,2,77,4);
+    gotoxy(18,3);cout<<"VETERINARIA PARA PERROS - HUELLITAS UNIDAS"<<endl;
 	ofstream escperro;
 	ifstream leerperro;
 	char opc2;
 	int repetido=0; //ver si algun codigo de perro se repite
 	do{
-		gotoxy(15,5);cout<<"PACIENTES"<<endl;
+		gotoxy(4,5);cout<<"MENU PACIENTES"<<endl;
 		gotoxy(4,7);cout<<"[1] Ingresar nuevo paciente.";
 		gotoxy(4,9);cout<<"[2] Ver pacientes.";
 		gotoxy(4,11);cout<<"[3] Buscar paciente existente.";
 		gotoxy(4,13);cout<<"[4] Modificar paciente.";
 		gotoxy(4,15);cout<<"[5] Eliminar paciente.";
 		gotoxy(4,17);cout<<"[0] Volver al menú principal.";
-		gotoxy(4,19);cout<<"Ingrese opción: ";cin>>opc2;
+		gotoxy(4,21);cout<<"Ingrese opción: ";cin>>opc2;
 		transicion();
 		if(opc2!='1' and opc2!='2' and opc2!='3' and opc2!='4' and opc2!='5' and opc2!='0'){
 			gotoxy(3,13);cout<<"Opción no válida, presiona una tecla para volver a ingresar un valor...";
@@ -150,29 +148,34 @@ void pacientes(){
 		//Opci?n Ingresar Paciente
 		case '1':{
 			agregarPaciente(escperro);
+			pacientes();
 			break;
 		}
 		//Opci?n Ver Paciente
 		case '2':{
 			transicion();
 			verPaciente(leerperro);
+			pacientes();
 			break;
 		}
 		//Opci?n Busar Paciente
 		case '3':{
 			buscarPaciente(leerperro);
+			pacientes();
 			break;
 		}
 		//Opci?n Modificar Paciente
 		case '4':{
 			transicion();
 			modificarPaciente(leerperro);
+			pacientes();
 			break;
 		}
 		//Opci?n Eliminar paciente
 		case '5':{
 			eliminarPaciente(leerperro);
 			transicion();
+			pacientes();
 			break;
 		}
 		//Opci?n Salir al men?
@@ -207,8 +210,6 @@ void agregarPaciente(ofstream &esc){
 		esc<<perrito<<" "<<codigo<<" "<<nombre_dueno<<" "<<apellido_dueno<<" "<<raza<<" "<<fecha<<"\n";
 	}
 	esc.close();
-	transicion();
-	menu_principal();
 }
 
 bool verificar_cod(string cod){
@@ -235,25 +236,27 @@ bool verificar_cod(string cod){
 
 void verPaciente(ifstream &leer){
 	system("cls");
+	dibujarCuadrado(2,2,77,4);
 	string codigo, perrito, nombre_dueno, apellido_dueno, raza, fecha;
 	leer.open("Perritos.txt",ios::in);
 	if(leer.is_open()){
-	cout<<"----------<<Perritos Registrados>>----------"<<endl<<endl;
-	leer>>perrito;
+		gotoxy(18,3);cout<<"VETERINARIA PARA PERROS - HUELLITAS UNIDAS"<<endl;
+		gotoxy(7,5);cout<<"Perritos Registrados"<<endl<<endl;
+		leer>>perrito;
 	while(!leer.eof()){
 		leer>>codigo;
 		leer>>nombre_dueno;
 		leer>>apellido_dueno;
 		leer>>raza;
 		leer>>fecha;
-		cout<<"Nombre del Perrito: "<<perrito<<endl;
-		cout<<"Código del Perrito: "<<codigo<<endl;
-		cout<<"Nombre del Due?o: "<<nombre_dueno<<endl;
-		cout<<"Apellido del Due?o: "<<apellido_dueno<<endl;
-		cout<<"Raza del Perrito: "<<raza<<endl;
-		cout<<"Fecha de inscripción: "<<fecha<<endl;
-		cout<<"Cita: "<<"No"<<endl;
-		cout<<"----------------------------------"<<endl;
+		cout<<"\tNombre del Perrito: "<<perrito<<endl;
+		cout<<"\tCódigo del Perrito: "<<codigo<<endl;
+		cout<<"\tNombre del Due?o: "<<nombre_dueno<<endl;
+		cout<<"\tApellido del Due?o: "<<apellido_dueno<<endl;
+		cout<<"\tRaza del Perrito: "<<raza<<endl;
+		cout<<"\tFecha de inscripción: "<<fecha<<endl;
+		cout<<"\tCita: "<<"No"<<endl;
+		cout<<"\t----------------------------------"<<endl;
 		leer>>perrito;
 	}
 	leer.close();
@@ -261,8 +264,6 @@ void verPaciente(ifstream &leer){
 	gotoxy(4,15);cout<<"ERROR al abrir el archivo";
 }
 	getch();
-	transicion2();
-	menu_principal();
 }
 
 void buscarPaciente(ifstream &lec){
@@ -297,8 +298,6 @@ void buscarPaciente(ifstream &lec){
 		gotoxy(4,10);cout<<"Dato no encontrado"<<endl;
 	}
 	getch();
-	transicion();
-	menu_principal();
 }
 
 void modificarPaciente(ifstream &lec){
@@ -341,8 +340,6 @@ void modificarPaciente(ifstream &lec){
 	remove("Perritos.txt");
 	rename("auxiliar.txt", "Perritos.txt");
 	getch();
-	transicion();
-	menu_principal();
 }
 
 void eliminarPaciente(ifstream &lec){
@@ -352,7 +349,7 @@ void eliminarPaciente(ifstream &lec){
 	ofstream aux("auxiliar.txt",ios::out);
 	if(lec.is_open()){
 		gotoxy(8,5);cout<<"ELIMINE LOS DATOS DEL PACIENTE";
-		gotoxy(4,7);cout<<"Digite el código del perrito a modificar: ";
+		gotoxy(4,7);cout<<"Digite el código del perrito a Eliminar: ";
 		cin>>codaux;
 		lec>>perrito;
 		while(!lec.eof()){
@@ -362,7 +359,7 @@ void eliminarPaciente(ifstream &lec){
 			lec>>raza;
 			lec>>fecha;
 			if(codigo==codaux){
-				gotoxy(4,9);cout<<"-------- Registro de Paciente eliminado con éxito --------- ";
+				gotoxy(4,17);cout<<"\t-------- Registro de Paciente eliminado con éxito --------- ";
 			}
 			else{
 				aux<<perrito<<" "<<codigo<<" "<<nombre_dueno<<" "<<apellido_dueno<<" "<<raza<<" "<<fecha<<endl;
@@ -377,14 +374,12 @@ void eliminarPaciente(ifstream &lec){
 	remove("Perritos.txt");
 	rename("auxiliar.txt", "Perritos.txt");
 	getch();
-	transicion();
-	menu_principal();
 }
 
 void menu_adopcion(){
 	char opcion;
-	
-	gotoxy(15,5);cout<<"MENU PRINCIPAL"<<endl;
+	transicion();
+	gotoxy(4,5);cout<<"MENU ADOPCION"<<endl;
 	gotoxy(4,7);cout<<"[1]: Ingreso nuevo"<<endl;
 	gotoxy(4,9);cout<<"[2]: Lista de perros"<<endl;
 	gotoxy(4,11);cout<<"[3]: Registrar adopcion"<<endl;
@@ -393,7 +388,7 @@ void menu_adopcion(){
 	gotoxy(4,17);cout<<"[0]: Salir"<<endl;
 	
 	do{
-		gotoxy(4,19);cout<<"Ingrese el numero de la opcion: [ ]"<<"\b\b";
+		gotoxy(4,21);cout<<"Ingrese el numero de la opcion: [ ]"<<"\b\b";
 		cin>>opcion;
 	}while(opcion!='1' && opcion!='2' && opcion!='3' && opcion!='4' && opcion!='5' && opcion!='0');
 	
@@ -511,8 +506,8 @@ void nuevoingreso(){
 
 	do{
 		if(cantidad()){
-		system("CLS");
-		cout<<"\t\tNUEVO PERRO"<<endl<<endl;
+		transicion();
+		gotoxy(30,5);cout<<"NUEVO PERRO"<<endl;
 		ofstream escribir;
 		escribir.open("guarderia.txt",ios::app);
 			
@@ -526,12 +521,12 @@ void nuevoingreso(){
 		}
 			
 		fflush(stdin);
-		cout<<"Nombre: ";getline(cin,nom);
-		cout<<"Edad: ";getline(cin,edad);			
-		cout<<"Tamano: ";getline(cin,tam);
-		cout<<"Raza: ";getline(cin,raza);
-		cout<<"Fecha de ingreso: ";getline(cin,ingreso);
-		cout<<"Estado: ";getline(cin,estado);
+		gotoxy(4,7);cout<<"Nombre: ";getline(cin,nom);
+		gotoxy(4,9);cout<<"Edad: ";getline(cin,edad);			
+		gotoxy(4,11);cout<<"Tamano: ";getline(cin,tam);
+		gotoxy(4,13);cout<<"Raza: ";getline(cin,raza);
+		gotoxy(4,15);cout<<"Fecha de ingreso: ";getline(cin,ingreso);
+		gotoxy(4,17);cout<<"Estado: ";getline(cin,estado);
 			
 		escribir<<cod<<endl;
 		escribir<<nom<<endl;
@@ -543,22 +538,23 @@ void nuevoingreso(){
 			
 		escribir.close();
 			
-		cout<<"Quiere ingresar otro perro? (S/N): ";cin>>opc;	
+		gotoxy(4,19);cout<<"Quiere ingresar otro perro? (S/N): ";cin>>opc;	
 		}
 		else{
-		cout<<"\nLa guarderia ya no cuenta con mas espacio :( ";
+		gotoxy(4,19);cout<<"\nLa guarderia ya no cuenta con mas espacio :( ";
 		}	
 	}while (opc=='s' or opc=='S');
 	getche();
 }
 
 void lista(){
-	system("CLS");
+	int n=9;
+	transicion();
 	ifstream leer;
 	leer.open("guarderia.txt",ios::in);
 	if(leer.is_open()){
-		cout<<"\t\tLISTA DE PERROS"<<endl<<endl;
-		cout<<"Codigo\tNombre\tEdad\tTamaño\tRaza\t Fecha     Estado"<<endl;	
+		gotoxy(15,5);cout<<"LISTA DE PERROS"<<endl;
+		gotoxy(4,7);cout<<"Codigo  Nombre  Edad  Tamaño  Raza\t      Fecha     Estado"<<endl;	
 		int cod;
 		string nom;
 		string edad;
@@ -575,13 +571,20 @@ void lista(){
 			leer>>raza;
 			leer>>ingreso;
 			leer>>estado;
-			cout<<"["<<cod<<"]"<<"\t"<<nom<<"\t"<<edad<<"\t"<<tam<<"\t"<<raza<<"\t "<<ingreso<<"  "<<estado<<endl;
+			gotoxy(4,n);cout<<"["<<cod<<"]";
+			gotoxy(12,n);cout<<nom;
+			gotoxy(20,n);cout<<edad;
+			gotoxy(26,n);cout<<tam;
+			gotoxy(34,n);cout<<raza;
+			gotoxy(46,n);cout<<ingreso;
+			gotoxy(56,n);cout<<estado<<endl;
+			n++;
 			leer>>cod;
 		}
 		getche();	
 	}
 	else{
-		cout<<"Error, No hay perros registrados o el archivo no existe"<<endl;
+		gotoxy(4,7);cout<<"Error, No hay perros registrados o el archivo no existe"<<endl;
 		getche();
 	}
 }
@@ -590,25 +593,25 @@ void adoptar(){
 
 	string cod2, nombre,apellido,dni,direc,fecha;
 
-	system("CLS");
-	cout<<"\t\tGENERAR ADOPCION"<<endl<<endl;
+	transicion();
+	gotoxy(15,5);cout<<"\t\tGENERAR ADOPCION"<<endl<<endl;
 	ofstream escribir;
 	escribir.open("adopcion.txt",ios::app);
 	
 	if(escribir.fail()){
-		cout<<"No se pudo abrir el archivo, intentelo de nuevo";
+		gotoxy(4,7);cout<<"No se pudo abrir el archivo, intentelo de nuevo";
 		menu_adopcion();
 	}
 	
 	fflush(stdin);
-	cout<<"Nombre: ";getline(cin,nombre);
-	cout<<"apellido: ";getline(cin,apellido);			
-	cout<<"DNI: ";getline(cin,dni);
-	cout<<"Direccion: ";getline(cin,direc);
+	gotoxy(4,7);cout<<"Nombre: ";getline(cin,nombre);
+	gotoxy(4,9);cout<<"apellido: ";getline(cin,apellido);			
+	gotoxy(4,11);cout<<"DNI: ";getline(cin,dni);
+	gotoxy(4,13);cout<<"Direccion: ";getline(cin,direc);
 	eliminar();
 	fflush(stdin);
-	cout<<"Confirma el Codigo del perro: ";getline(cin,cod2);
-	cout<<"Fecha de adopcion: ";getline(cin,fecha);
+	gotoxy(4,17);cout<<"Confirma el Codigo del perro: ";getline(cin,cod2);
+	gotoxy(4,19);cout<<"Fecha de adopcion: ";getline(cin,fecha);
 	
 	escribir<<nombre<<endl;
 	escribir<<apellido<<endl;
@@ -624,11 +627,13 @@ void adoptar(){
 
 void registro(){
 	system("CLS");
+	dibujarCuadrado(2,2,77,4);
 	ifstream leer;
 	leer.open("adopcion.txt",ios::in);
 	if(leer.is_open()){
-		cout<<"\t\tREGISTRO DE ADOPCIONES"<<endl<<endl;
-		cout<<"Nombre\tApellido\tDNI\t   Direccion\tCod Perro\tFecha"<<endl;	
+		gotoxy(18,3);cout<<"VETERINARIA PARA PERROS - HUELLITAS UNIDAS"<<endl;
+		gotoxy(15,5);cout<<"REGISTRO DE ADOPCIONES"<<endl<<endl;
+	
 		string nombre;
 		string apellido;
 		string dni;
@@ -643,13 +648,19 @@ void registro(){
 			leer>>direc;
 			leer>>cod2;
 			leer>>fecha;
-			cout<<nombre<<"\t"<<apellido<<"\t\t"<<dni<<"\t   "<<direc<<"\t"<<cod2<<"\t\t"<<fecha<<endl;
+			cout<<"\tNombre: "<<nombre<<endl;
+			cout<<"\tApellido: "<<apellido<<endl;
+			cout<<"\tDNI: "<<dni<<endl;
+			cout<<"\tDireccion: "<<direc<<endl;
+			cout<<"\tCod perro: "<<cod2<<endl;
+			cout<<"\tFecha adopcion: "<<fecha<<endl;
+			cout<<"\n\t-------------------------------"<<endl;
 			leer>>nombre;
 		}
 		getche();	
 	}
 	else{
-		cout<<"Error, No hay Adopciones o el archivo no existe"<<endl;
+		gotoxy(4,7);cout<<"Error, No hay Adopciones o el archivo no existe"<<endl;
 		getche();
 	}
 }
@@ -658,7 +669,7 @@ void eliminar(){
 	string codigo, newestado, cod, nom, edad, tam, raza, ingreso, estado;
 	ifstream lee("guarderia.txt", ios::in); 
 	ofstream reempl("cambio.txt", ios::app);
-	cout<<"Codigo del perro: ";cin>>codigo;
+	gotoxy(4,15);cout<<"Codigo del perro: ";cin>>codigo;
 	
 	getline(lee,cod);
 	while(!lee.eof()){
@@ -692,10 +703,11 @@ void eliminar(){
 }
 
 void cambio(){
+	transicion();
 	string codigo, newestado, cod, nom, edad, tam, raza, ingreso, estado;
 	ifstream lee("guarderia.txt", ios::in); 
 	ofstream reempl("cambio.txt", ios::app);
-	cout<<"Ingresar el codigo del perro --> ";cin>>codigo;
+	gotoxy(4,7);cout<<"Ingresar el codigo del perro --> ";cin>>codigo;
 	
 	getline(lee,cod);
 	while(!lee.eof()){
@@ -706,8 +718,8 @@ void cambio(){
 		getline(lee,ingreso);
 		getline(lee,estado);
 		if(cod == codigo){
-			cout<<"\nEstado-------> "<<estado<<endl;
-			cout<<"\nIngresar Nuevo Estado ----> ";
+			gotoxy(4,9);cout<<"Estado-------> "<<estado<<endl;
+			gotoxy(4,13);cout<<"Ingresar Nuevo Estado ----> ";
 			fflush(stdin);
 			getline(cin, newestado);
 			reempl<<cod<<endl;
@@ -737,7 +749,6 @@ void cambio(){
 	remove("guarderia.txt");
 	rename("cambio.txt", "guarderia.txt");
 }
-
 //Hacer cuadrados, son para darle est?tica y forma a nuestro men?
 void dibujarCuadrado(int x1,int y1,int x2,int y2){
     int i;
