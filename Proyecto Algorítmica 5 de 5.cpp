@@ -869,79 +869,70 @@ int tratamientos(){
             getch();
         }
 	}while(opc!='0' && opc!='1' && opc!='2'&& opc!='0');
-	
-    if(opc=='1'){ //DEBE SER UN CASE
-    
-    transicion();
-    gotoxy(15,5);cout<<"DESPARACITACION";
-	gotoxy(4,7);cout<<"[1] Inyeccion          s/20";
-	gotoxy(4,9);cout<<"[2] Pastilla           s/15";	
-    gotoxy(4,11);cout<<"[0] Salir ";
+	system("cls");
+	switch(opc){
+		case '1': transicion();
+			gotoxy(15,5);cout<<"DESPARACITACION";
+			gotoxy(4,7);cout<<"[1] Inyeccion          s/20";
+			gotoxy(4,9);cout<<"[2] Pastilla           s/15";	
+			gotoxy(4,11);cout<<"[0] Salir ";
+			
+			do{
+				gotoxy(4,13);cout<<"Ingrese opcion: ";
+				cin>>desparacitacion;
+					if(desparacitacion!='0' && desparacitacion!='1' && desparacitacion!='2')
+						gotoxy(4,15);cout<<"Opcion fuera del rango "<<endl;
+					switch(desparacitacion){
+						case '1': 
+							preciodesparacitacion=20;
+							gotoxy(4,15);cout<<"Opción registrada"<<endl;
+							break;
+						
+						case '2':
+							preciodesparacitacion=15;
+							gotoxy(4,15);cout<<"Opción registrada"<<endl;
+							break;
+						
+						case '0':
+							tratamientos();
+					}
+				}while(desparacitacion!='0' && desparacitacion!='1' && desparacitacion!='2');
+		break;
+		
+		case '2':
+			transicion();
+			gotoxy(15,5);cout<<"ANTIPULGAS";
+			gotoxy(4,7);cout<<"[1] Pipetas            s/15";
+			gotoxy(4,9);cout<<"[2] Pastilla           s/20 ";		
+			gotoxy(4,11);cout<<"[3] Inyeccion          s/25";	
+			gotoxy(4,13);cout<<"[0] Salir ";
 
-    do{
-    gotoxy(4,13);cout<<"Ingrese opcion: ";
-    cin>>desparacitacion;
-    if(desparacitacion!='0' && desparacitacion!='1' && desparacitacion!='2'){
-		gotoxy(4,15);cout<<"Opcion fuera del rango "<<endl;
-    }
-    }while(desparacitacion!='0' && desparacitacion!='1' && desparacitacion!='2');
-
-        if(desparacitacion=='1'){
-            preciodesparacitacion=20;
-            gotoxy(4,15);cout<<"Opción registrada"<<endl;
-        }
-        if(desparacitacion='2'){
-            preciodesparacitacion=15;
-            gotoxy(4,15);cout<<"Opción registrada"<<endl;
-        }
-        if(desparacitacion='0'){
-           tratamientos();
-        }
-        system("pause");
-	}
-
-	if(opc=='2'){ //DEBE SER UN CASE
-   
-    transicion();
-    gotoxy(15,5);cout<<"ANTIPULGAS";
-	gotoxy(4,7);cout<<"[1] Pipetas            s/15";
-	gotoxy(4,9);cout<<"[2] Pastilla           s/20 ";		
-	gotoxy(4,11);cout<<"[3] Inyeccion          s/25";	
-    gotoxy(4,13);cout<<"[0] Salir ";
-
-    do{
-    gotoxy(4,15);cout<<"Ingrese opcion: ";
-    cin>>opantipulgas;
-    if(opantipulgas!='0' && opantipulgas!='1' && opantipulgas!='2'&& opantipulgas!='3'){
-		gotoxy(4,15);cout<<"Opcion fuera del rango ";
-		system("pause");}
-    }while(opantipulgas!='0' && opantipulgas!='1' && opantipulgas!='2'&& opantipulgas!='3');
-       //Esto de los if puede ser más corto porque los 3 mandan el mismo mensaje
-        if(opantipulgas=='1'){
-        	gotoxy(4,15);cout<<"Opción registrada";
-            precioantipulgas=15;
-        }
-        if(opantipulgas=='2'){
-        	gotoxy(4,15);cout<<"Opción registrada";
-            precioantipulgas=20;
-        }
-        if(opantipulgas=='3'){
-        	gotoxy(4,15);cout<<"Opción registrada";
-            precioantipulgas=25;
-        }
-        if(opantipulgas=='0'){
-            tratamientos();
-        }
-        system("pause");
-	}
-	if (opc=='0'){
-		menu_servicios();
-	}
-	}while(desparacitacion!='0');
-	
+    		do{
+				gotoxy(4,15);cout<<"Ingrese opcion: ";
+				cin>>opantipulgas;
+				if(opantipulgas!='0' && opantipulgas!='1' && opantipulgas!='2'&& opantipulgas!='3'){
+					gotoxy(4,15);cout<<"Opcion fuera del rango ";
+					system("pause");
+					}
+				switch(opantipulgas){
+					case '1': precioantipulgas=15;
+					break;
+					case '2': precioantipulgas=20;
+					break;
+					case '3': precioantipulgas=25;
+					break;
+					case '0': tratamientos();
+				}
+			//gotoxy(4,15); cout<<"Opción registrada."; <- No sé dónde ponerlo (1)
+				 }while(opantipulgas!='0' && opantipulgas!='1' && opantipulgas!='2'&& opantipulgas!='3');
+			//gotoxy(4,15); cout<<"Opción registrada."; <-No sé dónde ponerlo (2)
+		break;
+		case '0': menu_servicios();
+		}
+    }while(desparacitacion!='0');
 	total=preciodesparacitacion+precioantipulgas;
 	return total;
-} 
+    } 
 
 int corte(){
 	char op;
@@ -962,43 +953,35 @@ int corte(){
     }while(op!='0' && op!='1'&& op!='2'&& op!='3'&&op!='4' &&op!='5'&&op!='6');
 	
     switch(op){
-    	//Esta parte debería ser con un if para al final poner el mensale de opción registrada
+    	//Esta parte debería ser con un if para al final poner el mensaje de opción registrada
 		case '1':{
-			preciocorte=40;
-			gotoxy(4,23);cout<<"Opción registrada";
+			preciocorte=40;	
 			break;
 		}
 		case '2':{
-			preciocorte=45;
-			gotoxy(4,23);cout<<"Opción registrada";			
+			preciocorte=45;		
 			break;
 		}
 		case '3':{
-			preciocorte=40;
-			gotoxy(4,23);cout<<"Opción registrada";			
+			preciocorte=40;			
 			break;
 		}
 		case '4':{
-			preciocorte=45;
-			gotoxy(4,23);cout<<"Opción registrada";			
+			preciocorte=45;		
 			break;
 		}
 		case '5':{
-			preciocorte=25;
-			gotoxy(4,23);cout<<"Opción registrada";			
+			preciocorte=25;		
 			break;
 		}
 		case '6':{
-			preciocorte=35;
-			gotoxy(4,23);cout<<"Opción registrada";			
+			preciocorte=35;		
 			break;
 		}
-		case '0':{
-			
+		case '0':
 			break;
-		}
-		system("pause");
-	} 
+	} gotoxy(4,23);cout<<"Opción registrada";
+	system("pause");
 	return preciocorte;
 }
 
