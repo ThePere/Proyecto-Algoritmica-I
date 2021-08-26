@@ -996,7 +996,7 @@ int operaciones(){
 			analisis();
 		}
 		
-			gotoxy(4,9);cout<<"[1] Esterilizaciones     S/200"<<endl;
+			gotoxy(4,9);cout<<"[1] Esterilizaciones    	  S/200"<<endl;
 			gotoxy(4,11);cout<<"[2] Oftalmologia          S/250"<<endl;
 			gotoxy(4,13);cout<<"[3] Maxilofacial          S/200"<<endl;
 			gotoxy(4,15);cout<<"[4] Abdominal             S/300"<<endl;
@@ -1048,10 +1048,10 @@ int analisis(){
 	do{
     transicion();
 	gotoxy(15,5);cout<<"ANÁLISIS";
-	gotoxy(4,7);cout<<"[1] Chequeo preoperatorio       S/300";
+	gotoxy(4,7);cout<<"[1] Chequeo preoperatorio       S/80";
 	gotoxy(4,9);cout<<"[2] Descarte de enfermedades"<<endl;
-	gotoxy(4,11);cout<<"[3] Radiografias                S/400";
-	gotoxy(4,13);cout<<"[4] Tomografias                 S/400";
+	gotoxy(4,11);cout<<"[3] Radiografias                S/100";
+	gotoxy(4,13);cout<<"[4] Tomografias                 S/100";
 	gotoxy(4,15);cout<<"[5] General.";
 	gotoxy(4,17);cout<<"[0] Volver";
 	
@@ -1063,7 +1063,7 @@ int analisis(){
 		switch (m){
 			case '1': 
 			gotoxy(5,21);cout<<"Chequeo preoperatorio"<<endl;
-				analisis[0]=300;
+				analisis[0]=80;
 			//cita();
 			break;
 			
@@ -1358,7 +1358,7 @@ void generarCompra(ifstream &leerBaseProductos){
 /*CITA+BOLETA--> POR ARREGLAR
 	void cita(){
 	system("cls");
-	char nombre[30], dni[10], fecha[10], hora[6];
+	char nombre[10], dni[10], fecha[10], hora[6];
 	cout<<"\tProgramacion de cita"<<endl;
 	cout<<"parte de ruben"<<endl;
 	cout<<"\nIngrese la fecha: ";
