@@ -430,7 +430,7 @@ bool verifica(int x, ifstream &lectura){
 
 	lectura>>cod;
 	while(!lectura.eof()){
-		if(cod==x){
+		if(cod>=x){
 			lectura.close();
 			return true;
 		}
