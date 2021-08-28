@@ -27,9 +27,9 @@ bool cantidad(ifstream &);
 void nuevoingreso(ofstream &,ifstream &);
 void lista(ifstream &);
 void adoptar(ofstream &,ifstream &);
-void eliminar();
-void registro();
-void cambio();
+void eliminar(ofstream &,ifstream &);
+void registro(ifstream &);
+void cambio(ofstream &,ifstream &);
 
 void menu_servicios();
 int bano();
@@ -400,14 +400,14 @@ void menu_adopcion(ofstream &escritura,ifstream &lectura){
 		
 		case '4':{
 			transicion();
-			registro();
+			registro(lectura);
 			menu_adopcion(escritura,lectura);
 			break;
 		}
 		
 		case '5':{
 			transicion();
-			cambio();
+			cambio(escritura,lectura);
 			menu_adopcion(escritura,lectura);
 			break;
 		}
@@ -469,7 +469,7 @@ bool cantidad(ifstream &lectura){
 			lectura>>estado;
 			lectura>>cod;
 		}
-		
+		lectura.close();
 		if(n<6){
 			return true;
 		}
@@ -562,6 +562,7 @@ void lista(ifstream &lectura){
 			n++;
 			lectura>>cod;
 		}
+		lectura.close();
 		getche();	
 	}
 	else{
@@ -588,7 +589,7 @@ void adoptar(ofstream &escritura,ifstream &lectura){
 	gotoxy(4,9);cout<<"apellido: ";getline(cin,apellido);			
 	gotoxy(4,11);cout<<"DNI: ";getline(cin,dni);
 	gotoxy(4,13);cout<<"Direccion: ";getline(cin,direc);
-	eliminar();
+	eliminar(escritura,lectura);
 	fflush(stdin);
 	gotoxy(4,17);cout<<"Confirma el Codigo del perro: ";getline(cin,cod2);
 	gotoxy(4,19);cout<<"Fecha de adopcion: ";getline(cin,fecha);
@@ -605,12 +606,11 @@ void adoptar(ofstream &escritura,ifstream &lectura){
 	getche();
 }
 
-void registro(){
+void registro(ifstream &lectura){
 	system("CLS");
 	dibujarCuadrado(2,2,77,4);
-	ifstream leer;
-	leer.open("adopcion.txt",ios::in);
-	if(leer.is_open()){
+	lectura.open("adopcion.txt",ios::in);
+	if(lectura.is_open()){
 		gotoxy(18,3);cout<<"VETERINARIA PARA PERROS - HUELLITAS UNIDAS"<<endl;
 		gotoxy(15,5);cout<<"REGISTRO DE ADOPCIONES"<<endl<<endl;
 	
@@ -621,13 +621,13 @@ void registro(){
 		string cod2;
 		string fecha;
 	
-			leer>>nombre;
-		while(!leer.eof()){
-			leer>>apellido;
-			leer>>dni;
-			leer>>direc;
-			leer>>cod2;
-			leer>>fecha;
+			lectura>>nombre;
+		while(!lectura.eof()){
+			lectura>>apellido;
+			lectura>>dni;
+			lectura>>direc;
+			lectura>>cod2;
+			lectura>>fecha;
 			cout<<"\tNombre: "<<nombre<<endl;
 			cout<<"\tApellido: "<<apellido<<endl;
 			cout<<"\tDNI: "<<dni<<endl;
@@ -635,8 +635,9 @@ void registro(){
 			cout<<"\tCod perro: "<<cod2<<endl;
 			cout<<"\tFecha adopcion: "<<fecha<<endl;
 			cout<<"\n\t-------------------------------"<<endl;
-			leer>>nombre;
+			lectura>>nombre;
 		}
+		lectura.close();
 		getche();	
 	}
 	else{
@@ -645,87 +646,87 @@ void registro(){
 	}
 }
 
-void eliminar(){
+void eliminar(ofstream &escritura,ifstream &lectura){
 	string codigo, newestado, cod, nom, edad, tam, raza, ingreso, estado;
-	ifstream lee("guarderia.txt", ios::in); 
-	ofstream reempl("cambio.txt", ios::app);
+	lectura.open("guarderia.txt", ios::in); 
+	escritura.open("cambio.txt", ios::app);
 	gotoxy(4,15);cout<<"Codigo del perro: ";cin>>codigo;
 	
-	getline(lee,cod);
-	while(!lee.eof()){
-		getline(lee,nom);
-		getline(lee,edad);
-		getline(lee,tam);
-		getline(lee,raza);
-		getline(lee,ingreso);
-		getline(lee,estado);
+	getline(lectura,cod);
+	while(!lectura.eof()){
+		getline(lectura,nom);
+		getline(lectura,edad);
+		getline(lectura,tam);
+		getline(lectura,raza);
+		getline(lectura,ingreso);
+		getline(lectura,estado);
 		if(cod == codigo){
 			cout<<endl;
 						
 		}else{
-			reempl<<cod<<endl;
-			reempl<<nom<<endl;
-			reempl<<edad<<endl;
-			reempl<<tam<<endl;
-			reempl<<raza<<endl;
-			reempl<<ingreso<<endl;
-			reempl<<estado<<endl;
+			escritura<<cod<<endl;
+			escritura<<nom<<endl;
+			escritura<<edad<<endl;
+			escritura<<tam<<endl;
+			escritura<<raza<<endl;
+			escritura<<ingreso<<endl;
+			escritura<<estado<<endl;
 				
 		}
-	getline(lee,cod);
+	getline(lectura,cod);
 		
 	}
 	
-	lee.close();
-	reempl.close();
+	lectura.close();
+	escritura.close();
 	remove("guarderia.txt");
 	rename("cambio.txt", "guarderia.txt");
 }
 
-void cambio(){
+void cambio(ofstream &escritura,ifstream &lectura){
 	transicion();
 	string codigo, newestado, cod, nom, edad, tam, raza, ingreso, estado;
-	ifstream lee("guarderia.txt", ios::in); 
-	ofstream reempl("cambio.txt", ios::app);
+	lectura.open("guarderia.txt", ios::in); 
+	escritura.open("cambio.txt", ios::app);
 	gotoxy(4,7);cout<<"Ingresar el codigo del perro --> ";cin>>codigo;
 	
-	getline(lee,cod);
-	while(!lee.eof()){
-		getline(lee,nom);
-		getline(lee,edad);
-		getline(lee,tam);
-		getline(lee,raza);
-		getline(lee,ingreso);
-		getline(lee,estado);
+	getline(lectura,cod);
+	while(!lectura.eof()){
+		getline(lectura,nom);
+		getline(lectura,edad);
+		getline(lectura,tam);
+		getline(lectura,raza);
+		getline(lectura,ingreso);
+		getline(lectura,estado);
 		if(cod == codigo){
 			gotoxy(4,9);cout<<"Estado-------> "<<estado<<endl;
 			gotoxy(4,13);cout<<"Ingresar Nuevo Estado ----> ";
 			fflush(stdin);
 			getline(cin, newestado);
-			reempl<<cod<<endl;
-			reempl<<nom<<endl;
-			reempl<<edad<<endl;
-			reempl<<tam<<endl;
-			reempl<<raza<<endl;
-			reempl<<ingreso<<endl;
-			reempl<<newestado<<endl;
+			escritura<<cod<<endl;
+			escritura<<nom<<endl;
+			escritura<<edad<<endl;
+			escritura<<tam<<endl;
+			escritura<<raza<<endl;
+			escritura<<ingreso<<endl;
+			escritura<<newestado<<endl;
 						
 		}else{
-			reempl<<cod<<endl;
-			reempl<<nom<<endl;
-			reempl<<edad<<endl;
-			reempl<<tam<<endl;
-			reempl<<raza<<endl;
-			reempl<<ingreso<<endl;
-			reempl<<estado<<endl;
+			escritura<<cod<<endl;
+			escritura<<nom<<endl;
+			escritura<<edad<<endl;
+			escritura<<tam<<endl;
+			escritura<<raza<<endl;
+			escritura<<ingreso<<endl;
+			escritura<<estado<<endl;
 				
 		}
-	getline(lee,cod);
+	getline(lectura,cod);
 		
 	}
 	
-	lee.close();
-	reempl.close();
+	lectura.close();
+	escritura.close();
 	remove("guarderia.txt");
 	rename("cambio.txt", "guarderia.txt");
 }
