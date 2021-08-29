@@ -606,8 +606,7 @@ void adoptar(ofstream &escritura,ifstream &lectura){
 }
 
 void registro(ifstream &lectura){
-	system("CLS");
-	dibujarCuadrado(2,2,77,4);
+	transicion();
 	lectura.open("adopcion.txt",ios::in);
 	if(lectura.is_open()){
 		gotoxy(18,3);cout<<"VETERINARIA PARA PERROS - HUELLITAS UNIDAS"<<endl;
@@ -640,11 +639,11 @@ void registro(ifstream &lectura){
 			lectura>>nombre;
 		}
 		lectura.close();
-		getche();	
+		getch();	
 	}
 	else{
 		gotoxy(4,7);cout<<"Error, No hay Adopciones o el archivo no existe"<<endl;
-		getche();
+		getch();
 	}
 }
 
@@ -763,10 +762,12 @@ void menu_servicios(){
         case '1':
             datos[0]=bano();
             menu_servicios();
+			
             break;
         
         case '2':
             datos[1]=vacunas();
+			transicion();
             menu_servicios();
             break;
         
@@ -869,11 +870,17 @@ int vacunas(){
         }
          case '7':{ vac[6]=40; break;
         }
-         case '0':{  break;
+         case '0':{  break; 
         }
         system("pause");
     }
-    gotoxy(4,25);cout<<"Desea agregar otra vacuna? (S/N): ";cin>>opc2;
+    
+	if(op!='0'){
+		gotoxy(4,25);cout<<"Desea agregar otra vacuna? (S/N): "; cin>>opc2;
+	}
+	else{
+		opc2='n';
+	}
     }while(opc2=='s' || opc2=='S');
 
     for(int i=0; i<7; i++){
@@ -894,14 +901,10 @@ int tratamientos(){
 	gotoxy(4,9);cout<<"[2] Antipulgas ";
     gotoxy(4,11);cout <<"[0] Salir";
 
-    do{
-    gotoxy(4,13);cout<<"Ingrese opcion: ";
-    cin>>opc;
-        if(opc!='0' && opc!='1' && opc!='2'){
-            gotoxy(4,15);cout<<" Ingreso mal de valor. Presione una tecla para volver a ingresar.."<<endl;
-            getch();
-        }
-	}while(opc!='0' && opc!='1' && opc!='2'&& opc!='0');
+	do{
+		gotoxy(4,15);cout<<"Ingrese el numero de la opcion: [ ]"<<"\b\b";
+		cin>>opc;
+	}while(opc!='0' && opc!='1' && opc!='2');
 	
 	switch(opc){
 		case '1': 
@@ -957,16 +960,18 @@ int tratamientos(){
 					break;
 					case '0': tratamientos();
 				}
-			//gotoxy(4,15); cout<<"Opción registrada."; <- No sé dónde ponerlo (1)
-				 }while(opantipulgas!='0' && opantipulgas!='1' && opantipulgas!='2'&& opantipulgas!='3');
-			//gotoxy(4,15); cout<<"Opción registrada."; <-No sé dónde ponerlo (2)
+			if(opantipulgas !='0')
+				gotoxy(4,15); cout<<"Opción registrada."; Sleep(2000);
+			
+			}while(opantipulgas!='0' && opantipulgas!='1' && opantipulgas!='2'&& opantipulgas!='3');
+			
 		break;
 		case '0': menu_servicios();
 		}
     }while(desparacitacion!='0');
 	total=preciodesparacitacion+precioantipulgas;
 	return total;
-    } 
+    }
 
 int corte(){
 	char op;
@@ -975,11 +980,11 @@ int corte(){
 	gotoxy(15,5);cout<<"CORTE DE PELO";
 	gotoxy(4,7);cout<<"[1] Corte leon				s/40 ";
 	gotoxy(4,9);cout<<"[2] Corte Ingles				s/45 ";
-	gotoxy(4,11);cout<<"[3] Corte Holandes		        	s/40 ";
-	gotoxy(4,13);cout<<"[4] Corte Moderno				s/45 ";
-	gotoxy(4,15);cout<<"[5] Corte de cachorro			s/25 ";
-	gotoxy(4,17);cout<<"[6] Corte de verano		    	        s/35 ";
-	gotoxy(4,19);cout <<"[0] Salir"; 
+	gotoxy(4,11);cout<<"[3] Corte Holandes		   	s/40 ";
+	gotoxy(4,13);cout<<"[4] Corte Moderno			s/45 ";
+	gotoxy(4,15);cout<<"[5] Corte de cachorro		s/25 ";
+	gotoxy(4,17);cout<<"[6] Corte de verano		    s/35 ";
+	gotoxy(4,19);cout <<"[0] Salir";
 
     do{
 	gotoxy(4,21);cout<< "Ingrese opción: ";
@@ -1014,8 +1019,10 @@ int corte(){
 		}
 		case '0':
 			break;
-	} gotoxy(4,23);cout<<"Opción registrada";
-	getch();
+	} 
+		if(preciocorte!=0){
+			gotoxy(4,23);cout<<"Opción registrada";			
+	}
 	return preciocorte;
 }
 
@@ -1237,9 +1244,7 @@ void boleta(int vec[]){
 		cout<<"\n\tAnalisis ---------------"<<vec[5]<<endl;
 	}	
 	
-	
 	total=vec[0]+vec[1]+vec[2]+vec[3]+vec[4]+vec[5];
-	
 	
 	cout<<"\n\n\tTotal a pagar: "<<total;
 	getch();
