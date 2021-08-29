@@ -39,8 +39,15 @@ int tratamientos();
 int corte();
 int operaciones();
 int analisis();
-void cita();
 void boleta(int vec[]);
+void menuCitas();
+void agregar(ofstream &);
+void verCitas(ifstream &);
+void buscarPersona(ifstream &);
+void modificar(ifstream &);
+void eliminar(ifstream &);
+
+
 
 void menuVentaDeArticulos();
 bool verificarProducto(string,ifstream &,float &,int &);
@@ -746,7 +753,8 @@ void menu_servicios(){
     gotoxy(4,15);cout<<"[5]:Operaciones";
     gotoxy(4,17);cout<<"[6]:Análisis";
     gotoxy(4,19);cout<<"[7]:Boleta";
-    gotoxy(4,21);cout<<"[0]:Salir";
+	gotoxy(4,21);cout<<"[8]:Citas";
+    gotoxy(4,23);cout<<"[0]:Salir";
     
     do{
         gotoxy(4,23);cout<<"Digite una opcion: ";cin>>opc;
@@ -755,7 +763,7 @@ void menu_servicios(){
         	gotoxy(5,15);cout<<"Error, presione una tecla para volver a intentarlo";
         }
 	}
-    while(opc!='1' and opc!='2' and opc!='3' and opc!='4' and opc!='5' and opc!='6' and opc!='7' and opc!='0');
+    while(opc!='1' and opc!='2' and opc!='3' and opc!='4' and opc!='5' and opc!='6' and opc!='7' and opc!='8' and opc!='0');
 
     switch (opc){
 
@@ -794,6 +802,11 @@ void menu_servicios(){
 		case '7':
 			boleta(datos);
 			menu_servicios();
+
+		case '8':
+			menuCitas();
+			menu_servicios();
+			
         case '0':
             getch();
             break;
@@ -831,6 +844,7 @@ int bano(){
 			break;
 		case '0': break;
 			}	
+			getch();
 	return preciobano;
 }
 
@@ -851,9 +865,9 @@ int vacunas(){
     gotoxy(4,21);cout<<"[0] Salir";
 
 	do{
-	gotoxy(4,23);cout << "Ingrese una opción: ";
-	cin>>op;
-    }while(op!='0' && op!='1'&& op!='2'&& op!='3'&&op!='4' &&op!='5'&&op!='6'&&op!='7');
+		gotoxy(4,23);cout<<"Ingrese el numero de la opcion: [ ]"<<"\b\b";
+		cin>>op;
+	}while(op!='0' && op!='1'&& op!='2'&& op!='3'&&op!='4' &&op!='5'&&op!='6'&&op!='7');
     
     switch (op){
         case '1':{ vac[0]=80 ; break;
@@ -876,7 +890,7 @@ int vacunas(){
     }
     
 	if(op!='0'){
-		gotoxy(4,25);cout<<"Desea agregar otra vacuna? (S/N): "; cin>>opc2;
+		gotoxy(40,23);cout<<"Desea agregar otra vacuna? (S/N): "; cin>>opc2;
 	}
 	else{
 		opc2='n';
@@ -886,7 +900,6 @@ int vacunas(){
     for(int i=0; i<7; i++){
         total_vacuna+=vac[i];
     }
-	
 	return total_vacuna;
 }
 
@@ -907,36 +920,38 @@ int tratamientos(){
 	}while(opc!='0' && opc!='1' && opc!='2');
 	
 	switch(opc){
-		case '1': 
+		case '1': {
 			transicion();
 			gotoxy(15,5);cout<<"DESPARACITACION";
 			gotoxy(4,7);cout<<"[1] Inyeccion          s/20";
 			gotoxy(4,9);cout<<"[2] Pastilla           s/15";	
 			gotoxy(4,11);cout<<"[0] Salir ";
-			
-			do{
-				gotoxy(4,13);cout<<"Ingrese opcion: ";
-				cin>>desparacitacion;
-				if(desparacitacion!='0' && desparacitacion!='1' && desparacitacion!='2')
-					gotoxy(4,15);cout<<"Opcion fuera del rango "<<endl;
+
+				do{
+					gotoxy(4,13);cout<<"Ingrese el numero de la opcion: [ ]"<<"\b\b";
+					cin>>desparacitacion;
+				}while(desparacitacion!='0' && desparacitacion!='1' && desparacitacion!='2');
+				
 				switch(desparacitacion){
-					case '1': 
+					case '1': {
 						preciodesparacitacion=20;
 						gotoxy(4,15);cout<<"Opción registrada"<<endl;
 						break;
-						
-					case '2':
+					}
+			
+					case '2':{
 						preciodesparacitacion=15;
-						gotoxy(4,15);cout<<"Opción registrada"<<endl;
+						gotoxy(4,15);cout<<"Opción registrada"<<endl;						
 						break;
-						
+					}
 					case '0':
 						tratamientos();
 					}
-			}while(desparacitacion!='0' && desparacitacion!='1' && desparacitacion!='2');
-		break;
+
+			break;
+		}
 		
-		case '2':
+		case '2':{
 			transicion();
 			gotoxy(15,5);cout<<"ANTIPULGAS";
 			gotoxy(4,7);cout<<"[1] Pipetas            s/15";
@@ -944,14 +959,12 @@ int tratamientos(){
 			gotoxy(4,11);cout<<"[3] Inyeccion          s/25";	
 			gotoxy(4,13);cout<<"[0] Salir ";
 
-    		do{
-				gotoxy(4,15);cout<<"Ingrese opcion: ";
+			do{
+				gotoxy(4,15);cout<<"Ingrese el numero de la opcion: [ ]"<<"\b\b";
 				cin>>opantipulgas;
-				if(opantipulgas!='0' && opantipulgas!='1' && opantipulgas!='2'&& opantipulgas!='3'){
-					gotoxy(4,15);cout<<"Opcion fuera del rango ";
-					system("pause");
-					}
-				switch(opantipulgas){
+			}while(opantipulgas!='0' && opantipulgas!='1' && opantipulgas!='2'&& opantipulgas!='3');
+	
+			switch(opantipulgas){
 					case '1': precioantipulgas=15;
 					break;
 					case '2': precioantipulgas=20;
@@ -960,12 +973,8 @@ int tratamientos(){
 					break;
 					case '0': tratamientos();
 				}
-			if(opantipulgas !='0')
-				gotoxy(4,15); cout<<"Opción registrada."; Sleep(2000);
-			
-			}while(opantipulgas!='0' && opantipulgas!='1' && opantipulgas!='2'&& opantipulgas!='3');
-			
-		break;
+			break;
+		}
 		case '0': menu_servicios();
 		}
     }while(desparacitacion!='0');
@@ -986,13 +995,12 @@ int corte(){
 	gotoxy(4,17);cout<<"[6] Corte de verano		    s/35 ";
 	gotoxy(4,19);cout <<"[0] Salir";
 
-    do{
-	gotoxy(4,21);cout<< "Ingrese opción: ";
-	cin>>op;
-    }while(op!='0' && op!='1'&& op!='2'&& op!='3'&&op!='4' &&op!='5'&&op!='6');
+	do{
+		gotoxy(4,21);cout<<"Ingrese el numero de la opcion: [ ]"<<"\b\b";
+		cin>>op;
+	}while(op!='0' && op!='1'&& op!='2'&& op!='3'&&op!='4' &&op!='5'&&op!='6');
 	
     switch(op){
-    	//Esta parte debería ser con un if para al final poner el mensaje de opción registrada
 		case '1':{
 			preciocorte=40;	
 			break;
@@ -1021,7 +1029,7 @@ int corte(){
 			break;
 	} 
 		if(preciocorte!=0){
-			gotoxy(4,23);cout<<"Opción registrada";			
+			gotoxy(4,23);cout<<"Opción registrada";	Sleep(2000);
 	}
 	return preciocorte;
 }
@@ -1029,6 +1037,7 @@ int corte(){
 int operaciones(){
 	char opc, confirm;
 	int precio;
+	ofstream Esc;
     transicion();
 	gotoxy(15,5);cout<<"OPERACIONES";
 	gotoxy(4,7);cout<<"Tiene chequeo preoperatorio?(s:si  n:no): ";
@@ -1080,6 +1089,9 @@ int operaciones(){
 				break;
 				case '0': break;
 			}
+			if(opc !=0){
+				agregar(Esc);
+			}
 	return precio;
 }
 
@@ -1105,7 +1117,7 @@ int analisis(){
 			case '1': 
 			gotoxy(5,21);cout<<"Chequeo preoperatorio"<<endl;
 				analisis[0]=80;
-			//cita();
+			
 			break;
 			
 			case '2':{
@@ -1125,14 +1137,14 @@ int analisis(){
 				case '1': {
 					gotoxy(4,17);cout<<"Distemper y Parvovirus";
 					descarte[0]=100;
-					//	cita();
+					
 					break;
 				}
 				
 				case '2': {
 					gotoxy(4,17);cout<<"Leptospirosis";
 					descarte[1]=80;
-					//	cita();
+					
 					break;
 				}
 				
@@ -1157,14 +1169,14 @@ int analisis(){
 			case '3': {
                 gotoxy(5,21);cout<<"Radiografia";
 			    	analisis[2]=400;
-			//	cita();
-			break;  
+				;
+				break;  
             }
 
 			case '4':{
                 gotoxy(5,21);cout<<"Tomografia";
 			    	analisis[3]=400;
-			//	cita();
+				
             break;
             }
 
@@ -1184,24 +1196,27 @@ int analisis(){
                     case '1': {
                     	gotoxy(4,15);cout<<"Analisis de sangre"<<endl;
                     	analisis[4]=100;
-                		//	cita();
+                	
 						break;
 					}
                     case '2': {
                     	gotoxy(4,15);cout<<"Analisis fisico"<<endl;
                     	analisis[4]=120;
-                		//	cita();
+                		
 						break;
 					}
                     case '3': {
                     	gotoxy(4,15);cout<<"Analisis de sangre y fisico"<<endl;
                     	analisis[4]=210;
-                		//   cita();
+                		
 						break;
 					}
                     case '0': m2='N'; 
 					break;
                 }
+				if(p2 !=0){
+					menuCitas();
+				}
 			break;  
             }
 			
@@ -1249,6 +1264,203 @@ void boleta(int vec[]){
 	cout<<"\n\n\tTotal a pagar: "<<total;
 	getch();
 }
+//===========================================================================================
+
+void agregar(ofstream &add){
+	//para limpiar consola
+	//system("cls");
+	string nom;
+	string dni;
+	string fecha;
+	string hora;
+	string doctor;
+	add.open("Citas.txt", ios::out|ios::app);
+	cout<<"Nombre: "; cin>>nom;
+	cout<<"DNI "; cin>>dni;
+	cout<<"Fecha: "; cin>>fecha;
+	cout<<"Hora: "; cin>>hora;
+	cout<<"Doctor: "; cin>>doctor;
+
+	add<<nom<<" "<<dni<<" "<<fecha<<" "<<hora<<" "<<doctor<<"\n";
+	add.close();
+}
+
+void verCitas(ifstream &Lec){
+	//system("cls");
+	cout<<"\t\tPersonas registradas"<<endl;
+	string nom;
+	string dni;
+	string fecha;
+	string hora;
+	string doctor;
+	Lec.open("Citas.txt", ios::in); //para archivos de lectura
+	Lec>>nom;
+	while(!Lec.eof()){
+		
+		Lec>>dni;
+		Lec>>fecha;
+		Lec>>hora;
+		Lec>>doctor;
+		cout<<"Nombre: "<<nom<<endl;
+		cout<<"DNI "<<dni<<endl;
+		cout<<"Fecha: "<<fecha<<endl;
+		cout<<"Hora: "<<hora<<endl;
+		cout<<"Doctor: "<<doctor<<endl;
+		Lec>>nom;
+		cout<<"_______________________________________________"<<endl;
+	}
+	Lec.close();
+	system("pause");
+}
+
+void buscarPersona(ifstream &Lec){
+	system("cls");
+	Lec.open("Citas.txt", ios::in);
+	string nom,dni,fecha, hora, doctor, dniaux;
+	bool encontrado=false;
+	cout<<"Digite el dni: "; cin>>dniaux;
+	Lec>>nom;
+	while(!Lec.eof() && !encontrado){
+		Lec>>dni;
+		Lec>>fecha;
+		Lec>>hora;
+		Lec>>doctor;
+		if(dni==dniaux){
+		cout<<"Nombre: "<<nom;
+		cout<<"DNI "<<dni;
+		cout<<"Fecha: "<<fecha;
+		cout<<"Hora: "<<hora;
+		cout<<"Doctor: "<<doctor;
+		encontrado=true;
+		}
+		Lec>>nom;
+	}
+	Lec.close();
+	if(!encontrado){
+		cout<<"Dato no encontrado."<<endl;
+	}
+	system("pause");
+}
+
+void modificar(ifstream &Lec){
+	system ("cls");
+	string nom;
+	string dni;
+	string fecha;
+	string hora;
+	string doctor;
+	string dniaux;
+	string fechaaux;
+	Lec.open("citas.txt", ios::in);
+	ofstream aux("auxiliar.txt", ios::out);
+	if (Lec.is_open()){
+		cout<<"DNI: "; cin>>dniaux;
+		Lec>>nom;
+		while(!Lec.eof()){
+			Lec>>dni;
+			Lec>>fecha;
+			Lec>>hora;
+			Lec>>doctor;
+			if(dni==dniaux){
+				cout<<"Digite nueva fecha: "; cin>>fechaaux;
+				aux<<nom<<" "<<dni<<" "<<fechaaux<<" "<<hora<<" "<<doctor<<"\n";
+			}
+			else{
+				aux<<nom<<" "<<dni<<" "<<fecha<<" "<<hora<<" "<<doctor<<"\n";
+			}
+			Lec>>nom;
+		}
+		Lec.close();
+		aux.close();	
+		}
+		else{
+			cout<<"ERROR"<<endl;
+		}
+		remove("citas.txt");
+		rename("auxiliar.txt", "citas.txt");
+	}
+
+void eliminar(ifstream &Lec){
+	system ("cls");
+	string nom;
+	string dni;
+	string fecha;
+	string hora;
+	string doctor;
+	string dniaux;
+	string fechaaux;
+	Lec.open("citas.txt", ios::in);
+	ofstream aux("auxiliar.txt", ios::out);
+	if (Lec.is_open()){
+		cout<<"DNI: "; cin>>dniaux;
+		Lec>>nom;
+		while(!Lec.eof()){
+			Lec>>dni;
+			Lec>>fecha;
+			Lec>>hora;
+			Lec>>doctor;
+			if(dni==dniaux){
+				cout<<"Eliminado ok.\n";
+				Sleep(1500);
+			}
+			else{
+				aux<<nom<<" "<<dni<<" "<<fecha<<" "<<hora<<" "<<doctor<<"\n";
+			}
+			Lec>>nom;
+		}
+		Lec.close();
+		aux.close();	
+		}
+		else{
+			cout<<"ERROR"<<endl;
+		}
+		remove("citas.txt");
+		rename("auxiliar.txt", "citas.txt");
+	}
+
+
+void menuCitas(){
+	int x;
+	system ("cls");
+	cout<<"\t\tCITAS"<<endl<<endl;
+	cout<<"1. Programar cita"<<endl;
+	cout<<"2. Ver citas"<<endl;
+	cout<<"3. Buscar personas"<<endl;
+	cout<<"4. Modificar cita"<<endl;
+	cout<<"5. Eliminar cita"<<endl;
+	cout<<"6. Salir"<<endl;
+	cout<<"Opcion: "; cin>>x;
+	
+	ofstream Esc;//para grabar datos
+	ifstream Lee; //para leer datos
+	do{
+		system("cls");
+		switch(x){
+			case 1: {
+				agregar(Esc);
+				break;
+			}
+			case 2:{
+				verCitas(Lee);
+				break;
+			}
+			case 3:{
+				buscarPersona(Lee);
+				break;
+			}
+			case 4:{
+				modificar(Lee);
+				break;
+			}
+			case 5:{
+				eliminar(Lee);
+				break;
+			}
+		}
+		
+	}while(x !=6);
+}
+
 //============================================================================================
 
 void menuVentaDeArticulos(){
