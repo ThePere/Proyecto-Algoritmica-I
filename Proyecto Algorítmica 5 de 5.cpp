@@ -23,7 +23,7 @@ void eliminarPaciente(ofstream &,ifstream &);
 
 void menuAdopcion(ofstream &,ifstream &);
 bool verifica(int, ifstream &);
-bool cantidad(ifstream &);
+bool verificarEspacioDisponiblePerros(ifstream &);
 void ingresarPerroAdopcion(ofstream &,ifstream &);
 void mostrarListaAdopcion(ifstream &);
 void adoptarPerro(ofstream &,ifstream &);
@@ -445,7 +445,7 @@ bool verifica(int x, ifstream &lectura){
 	return false;
 }
 
-bool cantidad(ifstream &lectura){
+bool verificarEspacioDisponiblePerros(ifstream &lectura){
 	int n=0;
 	lectura.open("guarderia.txt",ios::in);
 	if(lectura.is_open()){	
@@ -487,7 +487,7 @@ void ingresarPerroAdopcion(ofstream &escritura,ifstream &lectura){
 	string nom, edad, tam, raza, ingreso, estado;
 
 	do{
-		if(cantidad(lectura)){
+		if(verificarEspacioDisponiblePerros(lectura)){
 		transicion(5,28,3,77);
 		gotoxy(30,5);cout<<"NUEVO PERRO"<<endl;
 		escritura.open("guarderia.txt",ios::app);
@@ -754,8 +754,7 @@ void menu_servicios(ofstream &escritura,ifstream &lectura){
         gotoxy(4,25);cout<<"Ingrese el numero de la opcion: [ ]"<<"\b\b";
         cin>>opc;
         if(opc!='1' and opc!='2' and opc!='3' and opc!='4' and opc!='5' and opc!='6' and opc!='7' and opc!='8' and opc!='0'){
-        	gotoxy(4,27);cout<<"Error, presione una tecla para volver a intentarlo";
-        	getch();
+        	errorOpcionIngresada();
         }
 	}
     while(opc!='1' and opc!='2' and opc!='3' and opc!='4' and opc!='5' and opc!='6' and opc!='7' and opc!='8' and opc!='0');
@@ -810,26 +809,24 @@ void menu_servicios(ofstream &escritura,ifstream &lectura){
     
 }
 int bano(){
-	char tamano;
+	char opc;
 	int preciobano=0;
+	int opc;
 	do{
 	transicion(5,28,3,77);
 	gotoxy(15,5);cout<<"BANO";
 	gotoxy(4,7);cout<<"[1]. Pequenio					s/20 ";
 	gotoxy(4,9);cout<<"[2]. Mediano					s/30 ";
 	gotoxy(4,11);cout<<"[3]. Grande						s/40 ";
-    gotoxy(4,13);cout<<"[0]. Salir ";	
-
- 
-		gotoxy(4,17);cout<<"Ingrese el numero de la opcion: [ ]"<<"\b\b";
-		cin>>tamano;
-        if(tamano!='0'&&tamano!='1'&&tamano!='2'&&tamano!='3'){
-        	gotoxy(4,27);cout<<"Error, presione una tecla para volver a intentarlo";
-        	getch();
+    gotoxy(4,13);cout<<"[0]. Volver al menu ";	
+	gotoxy(4,17);cout<<"Ingrese el numero de la opcion: [ ]"<<"\b\b";
+		cin>>opc;
+        if(opc!='0'&&opc!='1'&&opc!='2'&&opc!='3'){
+        	errorOpcionIngresada();
         }
-	}while(tamano!='0'&&tamano!='1'&&tamano!='2'&&tamano!='3');	
+	}while(opc!='0'&&opc!='1'&&opc!='2'&&opc!='3');	
 	
-	switch(tamano){
+	switch(opc){
 		case '1': preciobano=20;
 			confirmacion();
 			break;
@@ -850,20 +847,21 @@ int vacunas(){
     int vac[7]={0,0,0,0,0,0,0}, total_vacuna=0;
 
     do{
-	transicion(5,28,3,77);
-	gotoxy(15,5);cout<<"VACUNAS";
-	gotoxy(4,7);cout<<"[1] Distemper          s/80";
-	gotoxy(4,9);cout<<"[2] Parvovirus         s/90 ";
-	gotoxy(4,11);cout<<"[3] Hepatitis          s/70";	
-	gotoxy(4,13);cout<<"[4] Coronavirosis      s/70";
-	gotoxy(4,15);cout<<"[5] Parainfluencia     s/60";		
-	gotoxy(4,17);cout<<"[6] Leptospirosis      s/60";
-	gotoxy(4,19);cout<<"[7] Rabia              s/40";
-    gotoxy(4,21);cout<<"[0] Salir";
-
-	do{
-		gotoxy(4,23);cout<<"Ingrese el numero de la opcion: [ ]"<<"\b\b";
-		cin>>op;
+		do{	
+			transicion(5,28,3,77);
+			gotoxy(15,5);cout<<"VACUNAS";
+			gotoxy(4,7);cout<<"[1] Distemper          s/80";
+			gotoxy(4,9);cout<<"[2] Parvovirus         s/90 ";
+			gotoxy(4,11);cout<<"[3] Hepatitis          s/70";	
+			gotoxy(4,13);cout<<"[4] Coronavirosis      s/70";
+			gotoxy(4,15);cout<<"[5] Parainfluencia     s/60";		
+			gotoxy(4,17);cout<<"[6] Leptospirosis      s/60";
+			gotoxy(4,19);cout<<"[7] Rabia              s/40";
+			gotoxy(4,21);cout<<"[0] Salir";
+			gotoxy(4,23);cout<<"Ingrese una opcion: ";cin>>op;
+			if(op!='1' && op!='2' && op!='3' && op!='4' && op!='5' && op!='6' && op!='7' && op!='0'){
+				errorOpcionIngresada();
+			}
 	}while(op!='0' && op!='1'&& op!='2'&& op!='3'&&op!='4' &&op!='5'&&op!='6'&&op!='7');
     
     switch (op){
@@ -873,15 +871,15 @@ int vacunas(){
         
         case '3': vac[2]=70 ; break;
         
-         case '4': vac[3]=70; break;
+        case '4': vac[3]=70; break;
         
         case '5': vac[4]=60; break;
         
-         case '6': vac[5]=60; break;
+        case '6': vac[5]=60; break;
         
-         case '7': vac[6]=40; break;
+        case '7': vac[6]=40; break;
         
-         case '0':  break; 
+        case '0':  break; 
 		 
         system("pause");
     }
@@ -904,17 +902,18 @@ int tratamientos(ofstream &escritura,ifstream &lectura){
 	char opc,desparacitacion,opantipulgas;
     int preciodesparacitacion=0,precioantipulgas=0,total=0;
    
-	do{ 
-    transicion(5,28,3,77);
-	gotoxy(15,5);cout<<"TRATAMIENTOS";
-	gotoxy(4,7);cout<<"[1] Desparacitacion";
-	gotoxy(4,9);cout<<"[2] Antipulgas ";
-    gotoxy(4,11);cout <<"[0] Salir";
-
 	do{
-		gotoxy(4,15);cout<<"Ingrese el numero de la opcion: [ ]"<<"\b\b";
-		cin>>opc;
-	}while(opc!='0' && opc!='1' && opc!='2');
+		 do{
+			transicion(5,28,3,77);
+			gotoxy(15,5);cout<<"TRATAMIENTOS";
+			gotoxy(4,7);cout<<"[1] Desparacitacion";
+			gotoxy(4,9);cout<<"[2] Antipulgas ";
+			gotoxy(4,11);cout <<"[0] Salir";
+			gotoxy(4,13);cout<<"Ingrese una opción: ";cin>>opc;	
+			if(opc!='1' && opc!='2' && opc!='0'){
+				errorOpcionIngresada();
+			}
+		}while(opc!='0' && opc!='1' && opc!='2');
 	
 	switch(opc){
 		case '1': {
@@ -987,19 +986,21 @@ int tratamientos(ofstream &escritura,ifstream &lectura){
 int corte(){
 	char op;
 	int preciocorte=0;
-	transicion(5,28,3,77);
-	gotoxy(15,5);cout<<"CORTE DE PELO";
-	gotoxy(4,7);cout<<"[1] Corte leon";gotoxy(50,7);cout<<"s/40";
-	gotoxy(4,9);cout<<"[2] Corte Ingles";gotoxy(50,9);cout<<"s/45";
-	gotoxy(4,11);cout<<"[3] Corte Holandes";gotoxy(50,11);cout<<"s/40";
-	gotoxy(4,13);cout<<"[4] Corte Moderno";gotoxy(50,13);cout<<"s/45";
-	gotoxy(4,15);cout<<"[5] Corte de cachorro";gotoxy(50,15);cout<<"s/25";
-	gotoxy(4,17);cout<<"[6] Corte de verano";gotoxy(50,17);cout<<"s/35";
-	gotoxy(4,19);cout <<"[0] Salir";
-
 	do{
-		gotoxy(4,21);cout<<"Ingrese el numero de la opcion: [ ]"<<"\b\b";
-		cin>>op;
+		transicion(5,28,3,77);
+
+		gotoxy(15,5);cout<<"CORTE DE PELO";
+		gotoxy(4,7);cout<<"[1] Corte leon";gotoxy(50,7);cout<<"s/40";
+		gotoxy(4,9);cout<<"[2] Corte Ingles";gotoxy(50,9);cout<<"s/45";
+		gotoxy(4,11);cout<<"[3] Corte Holandes";gotoxy(50,11);cout<<"s/40";
+		gotoxy(4,13);cout<<"[4] Corte Moderno";gotoxy(50,13);cout<<"s/45";
+		gotoxy(4,15);cout<<"[5] Corte de cachorro";gotoxy(50,15);cout<<"s/25";
+		gotoxy(4,17);cout<<"[6] Corte de verano";gotoxy(50,17);cout<<"s/35";
+		gotoxy(4,19);cout <<"[0] Salir";
+		gotoxy(4,21);cout<<"Ingrese una opción: ";cin>>op;
+			if(op!='1' && op!='2' && op!='3' && op!='4' && op!='5' && op!='6' && op!='0'){
+				errorOpcionIngresada();
+			}
 	}while(op!='0' && op!='1'&& op!='2'&& op!='3'&&op!='4' &&op!='5'&&op!='6');
 	
     switch(op){
