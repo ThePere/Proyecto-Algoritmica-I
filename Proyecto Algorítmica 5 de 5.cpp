@@ -23,12 +23,12 @@ void eliminarPaciente(ofstream &,ifstream &);
 
 void menuAdopcion(ofstream &,ifstream &);
 bool verifica(int, ifstream &);
-bool verificarExistenciaCodigo(string, ifstream &);
+bool ExistenciaCodigo(string, ifstream &);
 bool verificarEspacioDisponiblePerros(ifstream &);
 void ingresarPerroAdopcion(ofstream &,ifstream &);
 void mostrarListaAdopcion(ifstream &);
 void adoptarPerro(ofstream &,ifstream &);
-void eliminar(ofstream &,ifstream &);
+void eliminar(ofstream &,ifstream &,string);
 void mostrarRegistrosAdopcion(ifstream &);
 void cambiarEstadoAdopcion(ofstream &,ifstream &);
 
@@ -447,7 +447,7 @@ bool verifica(int x, ifstream &lectura){
 	return false;
 }
 
-bool verificarExistenciaCodigo(string x, ifstream &lectura){
+bool ExistenciaCodigo(string codigoBuscado,ifstream &lectura){
 	lectura.open("guarderia.txt",ios::in);
 	string cod;
 	string nom;
@@ -457,19 +457,19 @@ bool verificarExistenciaCodigo(string x, ifstream &lectura){
 	string ingreso;
 	string estado;
 
-	lectura>>cod;
+	getline(lectura,cod);
 	while(!lectura.eof()){
-		if(cod==x){
+		getline(lectura,nom);
+		if(cod==codigoBuscado){
 			lectura.close();
 			return false;
 		}
-		lectura>>nom;
-		lectura>>edad;
-		lectura>>tam;
-		lectura>>raza;
-		lectura>>ingreso;
-		lectura>>estado;
-		lectura>>cod;
+		getline(lectura,edad);
+		getline(lectura,tam);
+		getline(lectura,raza);
+		getline(lectura,ingreso);
+		getline(lectura,estado);
+		getline(lectura,cod);
 	}
 	lectura.close();
 	return true;
@@ -614,9 +614,17 @@ void adoptarPerro(ofstream &escritura,ifstream &lectura){
 	gotoxy(4,9);cout<<"apellido: ";getline(cin,apellido);			
 	gotoxy(4,11);cout<<"DNI: ";getline(cin,dni);
 	gotoxy(4,13);cout<<"Direccion: ";getline(cin,direc);
-	eliminar(escritura,lectura);
-	gotoxy(4,17);cout<<"Confirma el Codigo del perro: ";getline(cin,cod2);
-	gotoxy(4,19);cout<<"Fecha de adopcion: ";getline(cin,fecha);
+	do{
+		gotoxy(4,15);cout<<"Codigo del perro: ";getline(cin,cod2);
+		if(ExistenciaCodigo(cod2,lectura)){
+			fflush(stdin);
+			gotoxy(4,17);cout<<"Codigo incorrecto, intente de nuevo.. ";
+			getch();
+			transicion(14,18,3,77);
+		}
+	}while(ExistenciaCodigo(cod2,lectura));
+	eliminar(escritura,lectura,cod2);
+	gotoxy(4,17);cout<<"Fecha de adopcion: ";getline(cin,fecha);
 	
 	escribir<<nombre<<endl;
 	escribir<<apellido<<endl;
@@ -667,19 +675,12 @@ void mostrarRegistrosAdopcion(ifstream &lectura){
 	}
 }
 
-void eliminar(ofstream &escritura,ifstream &lectura){
-	string codigo, newestado, cod, nom, edad, tam, raza, ingreso, estado;
+void eliminar(ofstream &escritura,ifstream &lectura, string codigo){
+	int a=1;
+	string cod, nom, edad, tam, raza, ingreso, estado;
 	lectura.open("guarderia.txt", ios::in); 
 	escritura.open("cambio.txt", ios::app);
-	do{
-		gotoxy(4,15);cout<<"Codigo del perro: ";getline(cin,codigo);
-		if(verificarExistenciaCodigo(codigo,lectura)){
-			gotoxy(4,17);cout<<"El codigo no existe, intentelo de nuevo...";
-			getch();
-			transicion(14,18,3,77);
-		}
-	}while(verificarExistenciaCodigo(codigo,lectura));
-	
+
 	getline(lectura,cod);
 	while(!lectura.eof()){
 		getline(lectura,nom);
@@ -713,14 +714,7 @@ void cambiarEstadoAdopcion(ofstream &escritura,ifstream &lectura){
 	lectura.open("guarderia.txt", ios::in); 
 	escritura.open("cambio.txt", ios::app);
 	gotoxy(15,5);cout<<"CAMBIO DE ESTADO";
-	do{
-		gotoxy(4,7);cout<<"Ingresar el codigo del perro: ";cin>>codigo;
-		if(verificarExistenciaCodigo(codigo,lectura)){
-			gotoxy(4,9);cout<<"El codigo no existe, intentelo de nuevo...";
-			getch();
-			transicion(6,10,3,77);
-		}
-	}while(verificarExistenciaCodigo(codigo,lectura));
+	gotoxy(4,7);cout<<"Ingresar el codigo del perro: ";cin>>codigo;
 	
 	getline(lectura,cod);
 	while(!lectura.eof()){
@@ -732,7 +726,7 @@ void cambiarEstadoAdopcion(ofstream &escritura,ifstream &lectura){
 		getline(lectura,estado);
 		if(cod == codigo){
 			gotoxy(4,9);cout<<"Estado: "<<estado<<endl;
-			gotoxy(4,13);cout<<"Ingresar Nuevo Estado: ";
+			gotoxy(4,11);cout<<"Ingresar Nuevo Estado: ";
 			fflush(stdin);
 			getline(cin, newestado);
 			escritura<<cod<<endl;
