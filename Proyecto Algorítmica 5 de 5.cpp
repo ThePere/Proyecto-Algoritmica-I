@@ -23,7 +23,7 @@ void eliminarPaciente(ofstream &,ifstream &);
 
 void menuAdopcion(ofstream &,ifstream &);
 bool verifica(int, ifstream &);
-bool ExistenciaCodigo(string, ifstream &);
+bool existenciaCodigo(string, ifstream &);
 bool verificarEspacioDisponiblePerros(ifstream &);
 void ingresarPerroAdopcion(ofstream &,ifstream &);
 void mostrarListaAdopcion(ifstream &);
@@ -194,8 +194,9 @@ bool verificarCodigo(string codigoBuscado,ifstream &lectura){
 	lectura.open("Perritos.txt",ios::in);
 	string perrito,nombreDueno,raza,fecha,codigo;
 	bool encontrado=false;
-	getline(lectura,codigo);
-	while(!lectura.eof()&&encontrado==false){
+	if(lectura.is_open()){
+		getline(lectura,codigo);
+		while(!lectura.eof()&&encontrado==false){
 		getline(lectura,perrito);
 		getline(lectura,nombreDueno);
 		getline(lectura,raza);
@@ -207,6 +208,10 @@ bool verificarCodigo(string codigoBuscado,ifstream &lectura){
 	}
 	lectura.close();
 	return encontrado;
+	}
+	else{
+		archivoNoAbierto();
+	}
 }
 
 void verPaciente(ifstream &lectura){
@@ -371,17 +376,20 @@ void eliminarPaciente(ofstream &escritura,ifstream &lectura){
 //===================================================================================
 void menuAdopcion(ofstream &escritura,ifstream &lectura){
 	char opcion;
+	do{
 	transicion(5,28,3,77);
-	gotoxy(4,5);cout<<"MENU ADOPCION";
+	gotoxy(4,5);cout<<"MENÚ ADOPCION";
 	gotoxy(4,7);cout<<"[1] Ingresar nuevo perro.";
 	gotoxy(4,9);cout<<"[2] Mostrar lista de perros.";
 	gotoxy(4,11);cout<<"[3] Registrar adopcion."<<endl;
 	gotoxy(4,13);cout<<"[4] Mostrar registros de adopcion.";
 	gotoxy(4,15);cout<<"[5] Cambiar estado.";
 	gotoxy(4,17);cout<<"[0] Salir.";
-	do{
-		gotoxy(4,21);cout<<"Ingrese el numero de la opcion: ";
-		cin>>opcion;
+	gotoxy(4,21);cout<<"Ingrese el numero de la opcion: ";
+	cin>>opcion;
+	if(opcion!='1' && opcion!='2' && opcion!='3' && opcion!='4' && opcion!='5' && opcion!='0'){
+		errorOpcionIngresada();
+	}
 	}while(opcion!='1' && opcion!='2' && opcion!='3' && opcion!='4' && opcion!='5' && opcion!='0');
 	
 	switch(opcion){
@@ -447,7 +455,7 @@ bool verifica(int x, ifstream &lectura){
 	return false;
 }
 
-bool ExistenciaCodigo(string codigoBuscado,ifstream &lectura){
+bool existenciaCodigo(string codigoBuscado,ifstream &lectura){
 	lectura.open("guarderia.txt",ios::in);
 	string cod;
 	string nom;
@@ -515,8 +523,8 @@ void ingresarPerroAdopcion(ofstream &escritura,ifstream &lectura){
 	string nom, edad, tam, raza, ingreso, estado;
 
 	do{
-		if(verificarEspacioDisponiblePerros(lectura)){
 		transicion(5,28,3,77);
+		if(verificarEspacioDisponiblePerros(lectura)){
 		gotoxy(30,5);cout<<"NUEVO PERRO";
 		escritura.open("guarderia.txt",ios::app);
 			
@@ -547,11 +555,12 @@ void ingresarPerroAdopcion(ofstream &escritura,ifstream &lectura){
 			
 		escritura.close();
 			
-		gotoxy(4,19);cout<<"Quiere ingresar otro perro? (S/N): ";cin>>opc;	
+		gotoxy(4,19);cout<<"¿Desea ingresar otro perro? (S/N): ";cin>>opc;	
 		}
 		else{
 		gotoxy(4,22);cout<<"La guarderia ya no cuenta con mas espacio :( ";
 		opc='n';
+		getch();
 		}	
 	}while (opc=='s' or opc=='S');
 }
@@ -611,18 +620,18 @@ void adoptarPerro(ofstream &escritura,ifstream &lectura){
 	
 	fflush(stdin);
 	gotoxy(4,7);cout<<"Nombre del Adoptante: ";getline(cin,nombre);
-	gotoxy(4,9);cout<<"apellido: ";getline(cin,apellido);			
+	gotoxy(4,9);cout<<"Apellido: ";getline(cin,apellido);			
 	gotoxy(4,11);cout<<"DNI: ";getline(cin,dni);
 	gotoxy(4,13);cout<<"Direccion: ";getline(cin,direc);
 	do{
 		gotoxy(4,15);cout<<"Codigo del perro: ";getline(cin,cod2);
-		if(ExistenciaCodigo(cod2,lectura)){
+		if(existenciaCodigo(cod2,lectura)){
 			fflush(stdin);
 			gotoxy(4,17);cout<<"Codigo incorrecto, intente de nuevo.. ";
 			getch();
 			transicion(14,18,3,77);
 		}
-	}while(ExistenciaCodigo(cod2,lectura));
+	}while(existenciaCodigo(cod2,lectura));
 	eliminar(escritura,lectura,cod2);
 	gotoxy(4,17);cout<<"Fecha de adopcion: ";getline(cin,fecha);
 	
@@ -1129,9 +1138,11 @@ void agregarCita(ofstream &escritura,ifstream &lectura){
 		gotoxy(7,5);cout<<"GENERAR CITA";
 		fflush(stdin);
 		gotoxy(4,7);cout<<"Código del perro: "; cin>>codigo;
-		if(!verificarCodigo(codigo,lectura)){
+		if(verificarCodigo(codigo,lectura)==false){
+
 			gotoxy(4,9);cout<<"--------Perro no encontrado--------";
 			getch();
+			precioServicios[4]=0;
 		}
 		else{
 			fflush(stdin);
@@ -1522,7 +1533,7 @@ bool verificarCantidadDisponible(ifstream &lectura,string nombreProductoBuscado,
 		lectura>>precioProducto;
 		if(nombreProducto==nombreProductoBuscado){
 			encontrado=true;
-			if(cantidadRequerida+cantidadProducto<0){
+			if(cantidadRequerida>cantidadProducto){
 				disponible=false;
 			}
 		}
@@ -1571,22 +1582,22 @@ void generarCompra(ofstream &escritura,ifstream &lectura){
 			do{
 				fflush(stdin);
 				gotoxy(4,9);cout<<"Nombre del producto: ";getline(cin,nombreProducto);
-				if(!verificarProducto(lectura,nombreProducto)){
+				if(verificarProducto(lectura,nombreProducto)==false){
 					gotoxy(4,11);cout<<"Producto no encontrado, presione una tecla para volver a intentarlo.";
 					getch();
 					transicion(9,11,3,77);
 				}
 			}
-			while(!verificarProducto(lectura,nombreProducto));
+			while(verificarProducto(lectura,nombreProducto)==false);
 			do{
 				gotoxy(4,11);cout<<"Cantidad requerida: ";cin>>cantidadProducto;
-				if(!verificarCantidadDisponible(lectura,nombreProducto,cantidadProducto)){
+				if(verificarCantidadDisponible(lectura,nombreProducto,cantidadProducto)==false){
 					gotoxy(4,13);cout<<"Cantidad no disponible, presione una tecla para volver a intentarlo.";
 					getch();
 					transicion(11,13,3,77);
 				}
 			}
-			while(!verificarCantidadDisponible(lectura,nombreProducto,cantidadProducto));
+			while(verificarCantidadDisponible(lectura,nombreProducto,cantidadProducto)==false);
 			gotoxy(4,13);cout<<"El costo total por el producto es S/. "<<cantidadProducto*obtenerPrecio(lectura,nombreProducto);
 			costoTotal+=cantidadProducto*obtenerPrecio(lectura,nombreProducto);
 			modificarCantidadProducto(escritura,lectura,nombreProducto,-cantidadProducto);
